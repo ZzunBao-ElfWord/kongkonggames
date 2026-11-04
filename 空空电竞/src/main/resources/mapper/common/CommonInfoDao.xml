@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pwyl.modules.common.dao.CommonInfoDao">
+
+
+    <select id="findByCondition" resultType="com.pwyl.modules.common.entity.CommonInfo">
+        select * from common_info where condition_from=#{condition}
+    </select>
+
+    <select id="findOne" resultType="com.pwyl.modules.common.entity.CommonInfo">
+        select * from common_info where `type`=#{type}
+    </select>
+
+    <select id="selectTalkPage" resultType="Map">
+        select t.talk_id as talkId,t.status,u.user_name as nickName,u.avatar as imageUrl,t.is_delete as isDelete,t.audit_content as auditContent,
+        t.create_time as createTime,t.content,t.img,t.share_num as shareNum,t.user_id as userId,t.video_url as videoUrl,
+        (select count(*) from comment c where c.talk_id=t.talk_id) as commentCount,
+        (select count(*) from talk_reward c where c.talk_id=t.talk_id and c.user_id=#{byUserId}) as rewardByUserCount,
+        (select count(*) from talk_reward c where c.talk_id=t.talk_id) as rewardCount,
+        (select count(*) from comment c where c.talk_id=t.talk_id and c.user_id=#{byUserId}) as commentByUserCount,
+        (select count(*) from good_talk c where c.talk_id=t.talk_id and c.user_id=#{byUserId}) as goodTalkByUserCount,
+        (select count(*) from user_follow f where f.user_id=#{byUserId} and f.follow_user_id=t.user_id) as followedCount,
+        (select count(*) from good_talk c where c.talk_id=t.talk_id) as goodTalkCount
+        from talk t
+        left join tb_user u on u.user_id=t.user_id
+        where 1=1
+        <if test="status!=null and status!=0">
+            and t.status=#{status}
+        </if>
+        <if test="status==null">
+            and t.status=2
+        </if>
+        <if test="followUserId!=null and followUserId!=0">
+            and u.user_id in (select follow_user_id from user_follow where user_id=#{followUserId})
+        </if>
+        <if test="userId!=null and userId!=0">
+            and t.user_id=#{userId}
+        </if>
+        <if test="nickName!=null and nickName!=''">
+            and u.user_name like concat('%',#{nickName},'%')
+        </if>
+        <if test="content!=null and content!=''">
+            and t.content like concat('%',#{content},'%')
+        </if>
+        <if test="videoOnly!=null and videoOnly==1">
+            and t.video_url is not null and t.video_url!=''
+        </if>
+        <if test="isDelete==null">
+            and t.is_delete is null
+        </if>
+        order by t.create_time desc
+    </select>
+
+    <select id="selectCommentPage" resultType="Map">
+        select c.content,ifnull(u.user_name,'神秘用户') as nickName,u.avatar as imageUrl,c.create_time as createTime,c.comment_id as commentId,
+        u.phone
+        from comment c
+        left join tb_user u on u.user_id=c.user_id
+        where parent_id=0
+        <if test="userId!=null and userId!=0">
+            and c.user_id=#{userId}
+        </if>
+        <if test="talkId!=null and talkId!=0">
+            and c.talk_id=#{talkId}
+        </if>
+        <if test="userName!=null and userName!=''">
+            and u.user_name like concat('%',#{userName},'%')
+        </if>
+        <if test="phone!=null and phone!=''">
+            and u.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="content!=null and content!=''">
+            and c.content like concat('%',#{content},'%')
+        </if>
+        order by c.create_time desc
+    </select>
+
+</mapper>

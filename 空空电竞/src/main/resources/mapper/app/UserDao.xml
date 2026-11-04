@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pwyl.modules.app.dao.UserDao">
+
+
+    <select id="selectUserPage" resultType="com.pwyl.modules.app.entity.UserEntity">
+        select u.*,m.money,v.is_vip as isVip,v.end_time as vipEndTime,
+        (select c.consortia_name from consortia c where c.consortia_id=u.consortia_id) as consortiaName
+        from tb_user u
+        left join user_money m on m.user_id=u.user_id
+        left join user_vip v on v.user_id=u.user_id
+        where 1=1
+        <if test="search!=null and search!=''">
+            and (u.user_id=#{search} or u.phone = #{search} or u.user_name =#{search} )
+        </if>
+        <if test="sex!=null and sex!=0">
+            and u.sex=#{sex}
+        </if>
+        <if test="platform!=null and platform!=''">
+            and u.platform=#{platform}
+        </if>
+        <if test="sysPhone!=null and sysPhone!=''">
+            and u.sys_phone=#{sysPhone}
+        </if>
+        <if test="status!=null and status!=0">
+            and u.status=#{status}
+        </if>
+        <if test="member!=null and member!=-1">
+            <if test="member==0">
+                and (v.is_vip=2 or v.is_vip is null)
+            </if>
+            <if test="member==1">
+                and v.is_vip=1
+            </if>
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and date_format(u.create_time,'%Y-%m-%d')>=date_format(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and date_format(u.create_time,'%Y-%m-%d')&lt;=date_format(#{endTime},'%Y-%m-%d')
+        </if>
+        <if test="userName!=null and userName!=''">
+            and u.user_name like CONCAT('%',#{userName},'%')
+        </if>
+        <if test="inviterCode!=null and inviterCode!=''">
+            and u.inviter_code=#{inviterCode}
+        </if>
+        <if test="isAuthentication!=null and isAuthentication!=-1">
+            <if test="isAuthentication!=null and isAuthentication!=-1">
+                <if test="isAuthentication==2">
+                    and zhi_rate>0
+                </if>
+                <if test="isAuthentication==1">
+                    and u.is_authentication=1
+                </if>
+                <if test="isAuthentication==0">
+                    and (u.is_authentication=0 or u.is_authentication is null)
+                </if>
+                <if test="isAuthentication==3">
+                    and u.user_id in (select user_id from consortia )
+                </if>
+            </if>
+        </if>
+        order by u.create_time desc
+    </select>
+
+
+    <select id="queryInviterCount" resultType="int">
+        select count(*)
+        from tb_user
+        where inviter_code = #{inviterCode}
+    </select>
+    <select id="queryUserCount" resultType="int">
+        select count(*)from tb_user where 1=1
+        <if test="type==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{date},'%Y-%m-%d')
+        </if>
+        <if test="type==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{date},'%Y-%m')
+        </if>
+        <if test="type==3">
+            and date_format(create_time,'%Y')=date_format(#{date},'%Y')
+        </if>
+
+    </select>
+
+    <select id="queryUserByPhoneCount" resultType="int">
+        select count(*)from tb_user where phone is not null
+        <if test="type==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{date},'%Y-%m-%d')
+        </if>
+        <if test="type==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{date},'%Y-%m')
+        </if>
+        <if test="type==3">
+            and date_format(create_time,'%Y')=date_format(#{date},'%Y')
+        </if>
+
+    </select>
+
+
+    <select id="queryPayMoney" resultType="Double">
+        select sum(money) from pay_details where `state`=1
+        <if test="type==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{date},'%Y-%m-%d')
+        </if>
+        <if test="type==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{date},'%Y-%m')
+        </if>
+        <if test="type==3">
+            and date_format(create_time,'%Y')=date_format(#{date},'%Y')
+        </if>
+    </select>
+
+    <select id="queryCourseOrder" resultType="com.pwyl.modules.app.response.CourseOrderResponse">
+        select * from (
+        select c.course_id as courseId,sum(o.pay_money) as 'coursemoney' ,count(*) as 'coursenum',any_value(c.title) as
+        'coursename' from orders o , course c where o.course_id=c.course_id and o.status=1 and o.orders_type=1
+        <if test="type==1">
+            and date_format(o.create_time,'%Y-%m-%d')=date_format(#{date},'%Y-%m-%d')
+        </if>
+        <if test="type==2">
+            and date_format(o.create_time,'%Y-%m')=date_format(#{date},'%Y-%m')
+        </if>
+        <if test="type==3">
+            and date_format(o.create_time,'%Y')=date_format(#{date},'%Y')
+        </if>
+        group by c.course_id
+        ) a
+        order by a.coursenum desc
+    </select>
+    <select id="userMessage" resultType="int">
+        select count(*) from tb_user t ,user_vip v where t.user_id=v.user_id and is_vip=1
+        <if test="type==1">
+            and date_format(t.create_time,'%Y-%m-%d')=date_format(#{date},'%Y-%m-%d')
+        </if>
+        <if test="type==2">
+            and date_format(t.create_time,'%Y-%m')=date_format(#{date},'%Y-%m')
+        </if>
+        <if test="type==3">
+            and date_format(t.create_time,'%Y')=date_format(#{date},'%Y')
+        </if>
+    </select>
+
+
+    <insert id="insertUser" parameterType="com.pwyl.modules.app.entity.UserEntity" useGeneratedKeys="true"
+            keyProperty="userId">
+        INSERT INTO tb_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != userName and '' != userName">
+                user_name,
+            </if>
+            <if test="null != phone and '' != phone">
+                phone,
+            </if>
+            <if test="null != avatar and '' != avatar">
+                avatar,
+            </if>
+            <if test="null != sex and '' != sex">
+                sex,
+            </if>
+            <if test="null != age and '' != age">
+                age,
+            </if>
+            <if test="null != openId and '' != openId">
+                open_id,
+            </if>
+            <if test="null != wxOpenId and '' != wxOpenId">
+                wx_open_id,
+            </if>
+            <if test="null != password and '' != password">
+                password,
+            </if>
+            <if test="null != createTime and '' != createTime">
+                create_time,
+            </if>
+            <if test="null != updateTime and '' != updateTime">
+                update_time,
+            </if>
+            <if test="null != appleId and '' != appleId">
+                apple_id,
+            </if>
+            <if test="null != sysPhone and '' != sysPhone">
+                sys_phone,
+            </if>
+            <if test="null != status and '' != status">
+                status,
+            </if>
+            <if test="null != platform and '' != platform">
+                platform,
+            </if>
+            <if test="null != jifen and '' != jifen">
+                jifen,
+            </if>
+            <if test="null != invitationCode and '' != invitationCode">
+                invitation_code,
+            </if>
+            <if test="null != inviterCode and '' != inviterCode">
+                inviter_code,
+            </if>
+            <if test="null != clientid and '' != clientid">
+                clientid,
+            </if>
+            <if test="null != zhiFuBaoName and '' != zhiFuBaoName">
+                zhi_fu_bao_name,
+            </if>
+            <if test="null != zhiFuBao and '' != zhiFuBao">
+                zhi_fu_bao,
+            </if>
+            <if test="null != rate">
+                rate,
+            </if>
+            <if test="null != zhiRate">
+                zhi_rate,
+            </if>
+            <if test="null != feiRate">
+                fei_rate
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != userName and '' != userName">
+                #{userName},
+            </if>
+            <if test="null != phone and '' != phone">
+                #{phone},
+            </if>
+            <if test="null != avatar and '' != avatar">
+                #{avatar},
+            </if>
+            <if test="null != sex and '' != sex">
+                #{sex},
+            </if>
+            <if test="null != age and '' != age">
+                #{age},
+            </if>
+            <if test="null != openId and '' != openId">
+                #{openId},
+            </if>
+            <if test="null != wxOpenId and '' != wxOpenId">
+                #{wxOpenId},
+            </if>
+            <if test="null != password and '' != password">
+                #{password},
+            </if>
+            <if test="null != createTime and '' != createTime">
+                #{createTime},
+            </if>
+            <if test="null != updateTime and '' != updateTime">
+                #{updateTime},
+            </if>
+            <if test="null != appleId and '' != appleId">
+                #{appleId},
+            </if>
+            <if test="null != sysPhone and '' != sysPhone">
+                #{sysPhone},
+            </if>
+            <if test="null != status and '' != status">
+                #{status},
+            </if>
+            <if test="null != platform and '' != platform">
+                #{platform},
+            </if>
+            <if test="null != jifen and '' != jifen">
+                #{jifen},
+            </if>
+            <if test="null != invitationCode and '' != invitationCode">
+                #{invitationCode},
+            </if>
+            <if test="null != inviterCode and '' != inviterCode">
+                #{inviterCode},
+            </if>
+            <if test="null != clientid and '' != clientid">
+                #{clientid},
+            </if>
+            <if test="null != zhiFuBaoName and '' != zhiFuBaoName">
+                #{zhiFuBaoName},
+            </if>
+            <if test="null != zhiFuBao and '' != zhiFuBao">
+                #{zhiFuBao},
+            </if>
+            <if test="null != rate ">
+                #{rate},
+            </if>
+            <if test="null != zhiRate ">
+                #{zhiRate},
+            </if>
+            <if test="null != feiRate ">
+                #{feiRate}
+            </if>
+        </trim>
+    </insert>
+    <select id="takingOrdersMessage" resultType="com.pwyl.modules.app.response.TakingOrderResponse">
+        SELECT
+        SUM( o.order_number ) AS orderNumber,
+        g.game_name,
+        SUM( o.pay_money ) AS payMoney
+        FROM
+        ( orders o LEFT JOIN order_taking t ON o.order_taking_id = t.id )
+        LEFT JOIN game g ON g.id = t.game_id
+        WHERE
+        o.state = 1
+        <if test="type==1">
+            and date_format("o.create_time",'%y-%M-%d')=date_format(#{date},'%y-%M-%d')
+        </if>
+        <if test="type==2">
+            and date_format("o.create_time",'%y-%M-%d')=date_format(#{date},'%y-%M-%d')
+        </if>
+        <if test="type==3">
+            and date_format("o.create_time",'%y-%M-%d')=date_format(#{date},'%y-%M-%d')
+        </if>
+
+        GROUP BY
+        g.game_name
+    </select>
+
+
+    <select id="selectUserByUserId" resultType="com.pwyl.modules.app.entity.UserEntity">
+        select *, (select count(*) from user_follow where user_id = #{byUserId}) as followCount
+        from tb_user
+        where user_id = #{userId}
+    </select>
+
+    <update id="updateUserConsortiaIsNullByUserId">
+        update tb_user
+        set consortia_id = null
+        where user_id = #{userId}
+    </update>
+
+    <update id="updateUserConsortiaIsNullByConsortiaId">
+        update tb_user
+        set consortia_id = null
+        where consortia_id = #{consortiaId}
+    </update>
+
+    <update id="updateUserClientIdIsNull">
+        update tb_user set clientid='' where clientid=#{clientid}
+    </update>
+
+    <select id="selectUserByOrdersCount" resultType="com.pwyl.modules.app.entity.UserEntity">
+        SELECT
+            count(*) as ordersCount,u.*
+        FROM
+            orders o
+                left join tb_user u on o.order_taking_user_id=u.user_id
+        WHERE
+            o.orders_type = 1
+          AND o.`state` = 2 and u.user_id is not null and u.`status`=1 and u.is_authentication = 1
+        group by o.order_taking_user_id
+        order by ordersCount desc
+    </select>
+
+    <select id="userPlatform" resultType="int">
+        select count(*)from tb_user where platform=#{platform}
+        <if test="type==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{date},'%Y-%m-%d')
+        </if>
+        <if test="type==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{date},'%Y-%m')
+        </if>
+        <if test="type==3">
+            and date_format(create_time,'%Y')=date_format(#{date},'%Y')
+        </if>
+
+    </select>
+
+</mapper>

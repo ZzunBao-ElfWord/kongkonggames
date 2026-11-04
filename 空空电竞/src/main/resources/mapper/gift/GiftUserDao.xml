@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pwyl.modules.gift.dao.GiftUserDao">
+
+    <select id="selectGiftUserList" resultType="com.pwyl.modules.gift.entity.GiftUser">
+        select g.*,u.user_name as userName,u.phone,s.user_name as sendUserName,s.phone as sendPHone from gift_user g
+        left join tb_user u on u.user_id = g.user_id
+        left join tb_user s on s.user_id = g.send_user_id
+        where 1=1
+        <if test="userId!=null">
+            and g.user_id=#{userId}
+        </if>
+        <if test="sendUserId!=null">
+            and g.send_user_id=#{sendUserId}
+        </if>
+        <if test="userName!=null and userName!=''">
+            and u.user_name like concat('%',#{userName},'%')
+        </if>
+        <if test="sendUserName!=null and sendUserName!=''">
+            and s.user_name like concat('%',#{sendUserName},'%')
+        </if>
+        <if test="phone!=null and phone!=''">
+            and u.phone = #{phone}
+        </if>
+        <if test="sendPhone!=null and sendPhone!=''">
+            and s.phone = #{sendPhone}
+        </if>
+        <if test="giftName!=null and giftName!=''">
+            and g.gift_name like concat('%',#{giftName},'%')
+        </if>
+        <if test="roomId!=null and roomId!=''">
+            and g.room_id = #{roomId}
+        </if>
+        order by g.create_time desc
+    </select>
+
+    <select id="selectNewGiftUser" resultType="Map">
+        select g.gift_name as giftName, u.user_name as userName,s.avatar, s.user_name as takingUserName,g.create_time as createTime
+        from gift_user g
+        left join tb_user u on u.user_id = g.user_id
+        left join tb_user s on s.user_id = g.send_user_id
+        order by g.create_time desc limit 5
+    </select>
+
+    <select id="selectSumMoneyByTime" resultType="Double">
+        select ifnull(sum(gift_money),0.00) from gift_user
+        where 1=1
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+    </select>
+
+    <select id="selectOrdersMoneyByTime" resultType="BigDecimal">
+        select
+        <if test="type==1">
+            ifnull(sum(gift_money),0.00)
+        </if>
+        <if test="type==2">
+            ifnull(sum(ping_money),0.00)
+        </if>
+        from gift_user
+        where 1=1
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+    </select>
+
+</mapper>

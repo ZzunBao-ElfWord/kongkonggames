@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pwyl.modules.taking.dao.FastOrderTakeDao">
+
+    <select id="selectFastOrderTakeList" resultType="com.pwyl.modules.taking.entity.OrderTaking"
+            parameterType="com.pwyl.modules.taking.entity.FastOrder">
+        select t.*,
+        u.avatar,
+        u.on_line as onLine,
+        u.user_name as userName,
+        g.game_name as gameName,
+        g.game_img as gameImg,
+        fot.content as fastContent,
+        fot.voice as fastVoice,
+        fot.sec as fastSec,
+        u.sex,
+        u.age,
+        fot.fast_order_take_id as fastOrderTakeId,
+        (select ifnull(avg(score),0) from taking_commnt where order_taking_id=t.id) as commentScore,
+        (select count(*) from taking_commnt where order_taking_id=t.id) as commentCount,
+        (select count(*) from orders where order_taking_id=t.id) as ordersCount
+        from order_taking t
+        LEFT JOIN game g ON t.game_id = g.id
+        LEFT JOIN tb_user u ON u.user_id = t.user_id
+        left join fast_order_take fot on fot.user_id=u.user_id
+        where fot.fast_order_id = #{fastOrderId} and fot.status=1 and t.status=0 and t.isdelete=0
+        group by t.user_id
+        order by
+        <if test="gameId!=null">
+             t.game_id=#{gameId} desc,
+        </if>
+        <if test="sex!=null and sex!=0">
+             t.user_id in (select user_id from tb_user where sex=#{sex}) desc,
+        </if>
+        <if test="minMoney!=null">
+             t.money>=#{minMoney} desc,
+        </if>
+        <if test="maxMoney!=null">
+             t.money&lt;=#{maxMoney} desc,
+        </if>
+        <if test="orderLevel!=null and orderLevel!=''">
+             t.order_level like concat('%',#{orderLevel},'%') desc,
+        </if>
+        create_time desc
+    </select>
+
+
+
+    <select id="selectFastOrderTakePage" resultType="com.pwyl.modules.taking.entity.OrderTaking"
+            parameterType="com.pwyl.modules.taking.entity.FastOrder">
+        select t.*,
+        u.avatar,
+        u.user_name as userName,
+        g.game_name as gameName,
+        g.game_img as gameImg,
+        fot.content as fastContent,
+        fot.voice as fastVoice,
+        fot.sec as fastSec,
+        u.sex,
+        u.age,
+        (select ifnull(avg(score),0) from taking_commnt where order_taking_id=t.id) as commentScore,
+        (select count(*) from taking_commnt where order_taking_id=t.id) as commentCount,
+        (select count(*) from orders where order_taking_id=t.id) as ordersCount
+        from order_taking t
+        LEFT JOIN game g ON t.game_id = g.id
+        LEFT JOIN tb_user u ON u.user_id = t.user_id
+        left join fast_order_take fot on fot.user_id=u.user_id
+        where t.status=0
+        <if test="fastOrder.gameId!=null">
+            and t.game_id=#{fastOrder.gameId}
+        </if>
+        <if test="fastOrder.sex!=null and fastOrder.sex!=0">
+            and t.user_id in (select user_id from tb_user where sex=#{fastOrder.sex})
+        </if>
+        <if test="fastOrder.minMoney!=null">
+            and t.money>=#{fastOrder.minMoney}
+        </if>
+        <if test="fastOrder.maxMoney!=null">
+            and t.money&lt;=#{fastOrder.maxMoney}
+        </if>
+        <if test="fastOrder.orderLevel!=null and fastOrder.orderLevel!=''">
+            and t.order_level like concat('%',#{fastOrder.orderLevel},'%')
+        </if>
+        <if test="fastOrder.orderTakingTime!=null and fastOrder.orderTakingTime!=''">
+            and left(t.order_taking_time,5)&lt;=DATE_FORMAT(#{fastOrder.orderTakingTime},'%H:%i')
+            and right(t.order_taking_time,5)>=DATE_FORMAT(#{fastOrder.orderTakingTime},'%H:%i')
+        </if>
+    </select>
+
+
+    <update id="updateFastOrderTake">
+        update fast_order_take set status=3 where fast_order_id=#{fastOrderId}
+    </update>
+
+
+</mapper>

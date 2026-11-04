@@ -1,0 +1,45 @@
+server:
+  port: ${SERVER_PORT:8091}
+  shutdown: graceful
+
+spring:
+  application:
+    name: apple-iap-service
+  datasource:
+    url: ${DB_URL:jdbc:h2:file:./data/apple-iap;MODE=MySQL;DATABASE_TO_LOWER=TRUE;AUTO_SERVER=TRUE}
+    username: ""
+    password:""
+    driver-class-name: ${DB_DRIVER:org.h2.Driver}
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+  jackson:
+    default-property-inclusion: non_null
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+
+apple:
+  iap:
+    bundle-id: ${APPLE_BUNDLE_ID:com.kongling.app}
+    app-apple-id: ${APPLE_APP_ID:0}
+    issuer-id: ${APPLE_ISSUER_ID:}
+    key-id: ${APPLE_KEY_ID:}
+    private-key-path: ${APPLE_PRIVATE_KEY_PATH:}
+    root-certificate-paths: ${APPLE_ROOT_CERT_PATHS:}
+    internal-token:""
+    sandbox-only: ${APPLE_SANDBOX_ONLY:false}
+
+logging:
+  level:
+    root: INFO
+    com.kongling.iap: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"

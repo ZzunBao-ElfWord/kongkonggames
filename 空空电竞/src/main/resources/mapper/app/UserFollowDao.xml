@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pwyl.modules.app.dao.UserFollowDao">
+     <select id="selectMyFollow"  resultType="com.pwyl.modules.app.response.UserFollowResponse">
+SELECT
+	t.user_id,
+	t.user_name,
+	t.avatar,
+	t.update_time
+FROM
+	user_follow f
+	LEFT JOIN tb_user t ON f.follow_user_id = t.user_id
+WHERE
+	f.user_id = #{userId} and t.user_id is not null
+
+     </select>
+	 <select id="selectFans" resultType="com.pwyl.modules.app.response.UserFollowResponse">
+	SELECT
+	t.user_id,
+	t.user_name,
+	t.avatar,
+	t.update_time
+	FROM
+	user_follow f
+	LEFT JOIN tb_user t ON f.user_id = t.user_id
+	WHERE
+	f.follow_user_id = #{userId} and t.user_id is not null
+	 </select>
+	<select id="selectMyFollow1"  resultType="com.pwyl.modules.app.response.UserFollowResponse">
+SELECT
+	t.user_id,
+	t.user_name,
+	t.avatar
+FROM
+	user_follow f
+	LEFT JOIN tb_user t ON f.follow_user_id = t.user_id
+WHERE
+	f.user_id = #{userId} and t.user_id is not null
+
+     </select>
+	<select id="selectFans1" resultType="com.pwyl.modules.app.response.UserFollowResponse">
+	SELECT
+	t.user_id,
+	t.user_name,
+	t.avatar
+FROM
+	user_follow f
+	LEFT JOIN tb_user t ON f.user_id = t.user_id
+WHERE
+	f.follow_user_id = #{userId} and t.user_id is not null
+	 </select>
+
+
+</mapper>

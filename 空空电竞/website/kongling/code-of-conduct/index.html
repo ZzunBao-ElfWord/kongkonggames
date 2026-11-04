@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用户平台行为守则 - 空空电竞 | 元宇宙陪伴平台</title>
+<meta name="description" content="空空电竞用户平台行为守则，规范平台社交互动、陪玩服务、线上沟通等各类使用行为，维护健康、文明、合规的网络服务秩序。">
+<link rel="icon" type="image/png" href="../kongling-icon.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --deep-blue: #0a0520;
+    --space-blue: #110830;
+    --nebula-purple: #6c3ce0;
+    --neon-cyan: #00f0ff;
+    --magic-pink: #ff6bcc;
+    --text-primary: #e8e4ff;
+    --text-secondary: #a89cc8;
+    --text-muted: #6b5f8a;
+    --gradient-text: linear-gradient(135deg, #00f0ff, #ff6bcc);
+    --glass-bg: rgba(26, 11, 61, 0.4);
+    --glass-border: rgba(108, 60, 224, 0.25);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--deep-blue);
+    color: var(--text-primary);
+    line-height: 1.9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .stars-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(108,60,224,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(255,107,204,0.1) 0%, transparent 50%);
+  }
+  .navbar {
+    position: sticky; top: 0; z-index: 1000;
+    padding: 16px 0;
+    background: rgba(10, 5, 32, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(108, 60, 224, 0.15);
+  }
+  .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
+  .nav-logo img { width: 36px; height: 36px; border-radius: 8px; }
+  .nav-logo span { font-size: 18px; font-weight: 800; letter-spacing: 3px; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .nav-back { color: var(--text-secondary); text-decoration: none; font-size: 14px; }
+  .nav-back:hover { color: var(--neon-cyan); }
+
+  main { flex: 1; position: relative; z-index: 1; padding: 60px 24px 80px; }
+  .container { max-width: 860px; margin: 0 auto; }
+  .page-header { text-align: center; margin-bottom: 40px; }
+  .page-tag { display: inline-block; padding: 6px 20px; border-radius: 20px; background: rgba(108,60,224,0.12); border: 1px solid rgba(108,60,224,0.35); color: var(--neon-cyan); font-size: 13px; letter-spacing: 3px; margin-bottom: 16px; }
+  .page-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; margin-bottom: 12px; }
+  .page-title .gradient { background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .page-desc { color: var(--text-secondary); font-size: 14px; }
+
+  .policy-content {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: blur(10px);
+  }
+  .policy-content h2 { font-size: 20px; color: #fff; margin: 32px 0 14px; padding-left: 14px; border-left: 4px solid var(--neon-cyan); }
+  .policy-content h2:first-child { margin-top: 0; }
+  .policy-content h3 { font-size: 16px; color: var(--neon-cyan); margin: 20px 0 10px; }
+  .policy-content p { color: var(--text-secondary); font-size: 15px; margin-bottom: 14px; }
+  .policy-content ul { margin: 10px 0 14px 24px; color: var(--text-secondary); font-size: 15px; }
+  .policy-content li { margin-bottom: 8px; }
+  .policy-content a { color: var(--neon-cyan); text-decoration: none; }
+  .policy-content a:hover { text-decoration: underline; }
+  .policy-content strong { color: var(--text-primary); }
+
+  footer { border-top: 1px solid rgba(108,60,224,0.15); padding: 30px 24px; position: relative; z-index: 1; background: rgba(10, 5, 32, 0.6); text-align: center; }
+  footer p { color: var(--text-muted); font-size: 13px; margin-bottom: 6px; }
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--neon-cyan); }
+
+  @media (max-width: 600px) { .policy-content { padding: 24px; } }
+</style>
+</head>
+<body>
+<div class="stars-bg"></div>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <img src="../kongling-icon.png" alt="空空电竞">
+      <span>空空电竞</span>
+    </a>
+    <a href="/" class="nav-back">← 返回首页</a>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+    <div class="page-header">
+      <span class="page-tag">CODE OF CONDUCT</span>
+      <h1 class="page-title">用户平台<span class="gradient">行为守则</span></h1>
+      <p class="page-desc">规范平台社交互动、陪玩服务、线上沟通等各类使用行为</p>
+    </div>
+
+    <div class="policy-content">
+      <p>为维护本平台健康、文明、合规的网络服务秩序，保障全体用户、陪玩师的合法权益，规范平台社交互动、陪玩服务、线上沟通等各类使用行为，依据《网络信息内容生态治理规定》《未成年人网络保护条例》等相关法律法规，制定本行为守则。</p>
+
+      <h2>一、通用基础行为规范（全体用户遵守）</h2>
+      <ul>
+        <li>1. 所有用户必须完成真实实名认证，严格遵守国家网络安全及互联网服务相关法律法规，文明上网、理性互动。</li>
+        <li>2. 用户在平台发布文字、语音、图片、评论、动态、私信等一切内容，必须真实合法、积极健康，严禁制作、复制、发布、传播违法违规及不良信息，包括但不限于危害国家安全、涉政敏感、色情低俗、暴力血腥、辱骂诽谤、造谣传谣、歧视引战、封建迷信、赌博诱导等违规内容。</li>
+        <li>3. 严禁任何形式的诈骗、刷单、恶意薅羊毛、虚假交易、私下交易、有偿代练违规推广等行为。</li>
+        <li>4. 尊重他人合法权益，严禁骚扰、辱骂、恐吓、诋毁、人肉搜索、曝光他人隐私信息，禁止侵犯他人肖像权、名誉权、隐私权及知识产权。</li>
+        <li>5. 禁止使用外挂、脚本、漏洞、非法工具等非正常手段操作账号、刷取数据、恶意卡单、违规获利，禁止批量注册、倒卖、租借、转让平台账号。</li>
+        <li>6. 未成年人需严格遵守青少年模式规则，严禁冒用成年人身份规避监管。</li>
+      </ul>
+
+      <h2>二、下单用户行为规范</h2>
+      <ul>
+        <li>1. 用户下单陪玩服务前，需如实确认服务需求，遵守平台订单规则与服务约定，文明沟通、礼貌互动。</li>
+        <li>2. 严禁恶意下单、无故频繁取消订单、恶意差评、故意刁难陪玩师。</li>
+        <li>3. 服务过程中不得提出低俗、色情、擦边、违规及超出平台合规范围的不合理服务要求。</li>
+        <li>4. 严禁利用陪玩服务进行炒作、引流、外站推广、拉群私域导流等非合规操作。</li>
+      </ul>
+
+      <h2>三、陪玩师服务行为规范</h2>
+      <ul>
+        <li>1. 陪玩师接单服务需严格遵守平台服务标准，诚信履约、文明服务。</li>
+        <li>2. 严禁出现低俗话术、擦边互动、色情暗示、言语挑逗、辱骂用户等违规服务行为。</li>
+        <li>3. 严禁以任何理由诱导、引导用户私下转账、线下交易、外站充值。</li>
+        <li>4. 不得虚假接单、挂单不服务、恶意卡单、串通用户刷单刷评。</li>
+        <li>5. 严格遵守平台青少年保护规则，不得向未成年人提供任何付费陪玩服务。</li>
+      </ul>
+
+      <h2>四、禁止行为与违规处置</h2>
+      <ul>
+        <li>1. 全体用户严禁触碰平台红线行为，包括但不限于涉黄涉暴、涉赌涉诈、违法引流、私下交易、恶意扰乱平台秩序、冒用身份违规操作、侵犯他人权益等行为。</li>
+        <li>2. 平台将根据用户违规情节轻重，采取警告、内容删除、限制发言、限制下单接单、冻结账号功能、封禁账号、清空违规收益等处置措施。</li>
+        <li>3. 用户若发现平台内违规内容、违规用户、恶意行为，可通过平台举报通道反馈。</li>
+      </ul>
+
+      <h2>五、附则</h2>
+      <ul>
+        <li>1. 本行为守则为平台用户服务协议配套规则，与平台各项协议、规则具有同等法律效力。</li>
+        <li>2. 平台有权根据法律法规更新、运营需求，适时修订本守则。</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>© 2026 空空电竞 · 元宇宙陪伴平台</p>
+  <p><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">闽ICP备2022005067号-10</a></p>
+</footer>
+</body>
+</html>

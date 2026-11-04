@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>账号注销协议 - 空空电竞 | 元宇宙陪伴平台</title>
+<meta name="description" content="空空电竞账号注销协议，请您在注销本软件账户前仔细阅读。">
+<link rel="icon" type="image/png" href="../kongling-icon.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --deep-blue: #0a0520;
+    --space-blue: #110830;
+    --nebula-purple: #6c3ce0;
+    --neon-cyan: #00f0ff;
+    --magic-pink: #ff6bcc;
+    --text-primary: #e8e4ff;
+    --text-secondary: #a89cc8;
+    --text-muted: #6b5f8a;
+    --gradient-text: linear-gradient(135deg, #00f0ff, #ff6bcc);
+    --glass-bg: rgba(26, 11, 61, 0.4);
+    --glass-border: rgba(108, 60, 224, 0.25);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--deep-blue);
+    color: var(--text-primary);
+    line-height: 1.9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .stars-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(108,60,224,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(255,107,204,0.1) 0%, transparent 50%);
+  }
+  .navbar {
+    position: sticky; top: 0; z-index: 1000;
+    padding: 16px 0;
+    background: rgba(10, 5, 32, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(108, 60, 224, 0.15);
+  }
+  .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
+  .nav-logo img { width: 36px; height: 36px; border-radius: 8px; }
+  .nav-logo span { font-size: 18px; font-weight: 800; letter-spacing: 3px; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .nav-back { color: var(--text-secondary); text-decoration: none; font-size: 14px; }
+  .nav-back:hover { color: var(--neon-cyan); }
+
+  main { flex: 1; position: relative; z-index: 1; padding: 60px 24px 80px; }
+  .container { max-width: 860px; margin: 0 auto; }
+  .page-header { text-align: center; margin-bottom: 40px; }
+  .page-tag { display: inline-block; padding: 6px 20px; border-radius: 20px; background: rgba(108,60,224,0.12); border: 1px solid rgba(108,60,224,0.35); color: var(--neon-cyan); font-size: 13px; letter-spacing: 3px; margin-bottom: 16px; }
+  .page-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; margin-bottom: 12px; }
+  .page-title .gradient { background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .page-desc { color: var(--text-secondary); font-size: 14px; }
+
+  .policy-content {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: blur(10px);
+  }
+  .policy-content h2 { font-size: 20px; color: #fff; margin: 32px 0 14px; padding-left: 14px; border-left: 4px solid var(--neon-cyan); }
+  .policy-content h2:first-child { margin-top: 0; }
+  .policy-content h3 { font-size: 16px; color: var(--neon-cyan); margin: 20px 0 10px; }
+  .policy-content p { color: var(--text-secondary); font-size: 15px; margin-bottom: 14px; }
+  .policy-content ul { margin: 10px 0 14px 24px; color: var(--text-secondary); font-size: 15px; }
+  .policy-content li { margin-bottom: 8px; }
+  .policy-content a { color: var(--neon-cyan); text-decoration: none; }
+  .policy-content a:hover { text-decoration: underline; }
+  .policy-content strong { color: var(--text-primary); }
+
+  footer { border-top: 1px solid rgba(108,60,224,0.15); padding: 30px 24px; position: relative; z-index: 1; background: rgba(10, 5, 32, 0.6); text-align: center; }
+  footer p { color: var(--text-muted); font-size: 13px; margin-bottom: 6px; }
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--neon-cyan); }
+
+  @media (max-width: 600px) { .policy-content { padding: 24px; } }
+</style>
+</head>
+<body>
+<div class="stars-bg"></div>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <img src="../kongling-icon.png" alt="空空电竞">
+      <span>空空电竞</span>
+    </a>
+    <a href="/" class="nav-back">← 返回首页</a>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+    <div class="page-header">
+      <span class="page-tag">ACCOUNT DELETION</span>
+      <h1 class="page-title">账号<span class="gradient">注销协议</span></h1>
+      <p class="page-desc">最近更新日期：2026 年 9 月 17 日</p>
+    </div>
+
+    <div class="policy-content">
+      <p>请您在注销本软件账户前，充分阅读、理解并同意下列内容：</p>
+
+      <p>您需依照本软件账户注销流程和页面提示，将该账户涉及的全部相关事项处理完毕后，方可提交注销申请。<strong>账户注销完成后，您将无法继续使用该软件全部服务，您与平台在《空空电竞用户服务协议》项下约定的权利义务终止</strong>，同时账户将产生如下后果：</p>
+
+      <h2>一、账户注销后果</h2>
+      <ul>
+        <li>1、账户个人资料、发布动态、聊天记录、作品、服务档案等账户信息及对应服务内容将被清空且无法恢复，法律法规另有要求或平台另行说明的情况除外；</li>
+        <li><strong>2、账户注销前已完成的历史订单、交易记录，对应的交易资金、服务款项，将不再支持退回至该已注销账户；</strong></li>
+        <li><strong>3、账户绑定的支付快捷方式将自动解除，无法继续使用平台内充值、提现、付款功能；</strong></li>
+        <li><strong>4、所有自动续费、自动扣款服务将同步失效；</strong></li>
+        <li><strong>5、账户内的平台金币、钻石、点券、优惠券、礼包、积分、会员特权、陪玩等级权益等全部虚拟资产与权益全部作废，不予补偿；</strong></li>
+        <li>6、若您是陪玩接单者，已签约的陪玩主播/陪玩师服务身份将自动解约，接单权限、服务档案全部清除；</li>
+        <li>7、账户内建立的亲密关系、师徒关系、房间、公会/圈子等社群关系全部解除；</li>
+        <li>8、账户下未使用的推广奖励、活动奖励全部清零；</li>
+        <li>9、实名认证信息将按法规要求做对应处理，注销后无法凭借该账号继续使用需要实名的平台功能；</li>
+        <li>10、账户收藏、关注、粉丝列表、历史评价、服务档案全部清除，不可找回。</li>
+      </ul>
+
+      <h2>二、账户资格限制</h2>
+      <p>您申请注销的账户，<strong>仅限本人注册、正常使用且状态正常的陪玩软件账户</strong>。</p>
+
+      <h2>三、余额与关联账号处置</h2>
+      <p><strong>若账户内存在余额、待结算佣金、虚拟资产，注销前请您通过提现、消费等方式自行处置完毕。</strong>若该账号关联平台其他子账号，在关联账号未完成注销前，当前账号可能无法执行注销。</p>
+
+      <h2>四、注销审核机制</h2>
+      <p>为维护您与其他用户合法权益，提交注销申请后，平台会对账户开展审核，审核包含：账户是否存在违约、违规、纠纷等行为；账户是否处于处罚、封禁、限制功能状态。</p>
+
+      <h2>五、退款通知方式</h2>
+      <p>账户注销完成后，如果发生订单退款、佣金退回情况，平台会通过原绑定手机号发送短信告知退款处理方式。</p>
+
+      <h2>六、注销后义务履行</h2>
+      <p><strong>即便账户已经注销，若平台发现您在账号使用期间仍存在尚未履行完毕的义务，平台有权要求您继续履行对应义务。</strong></p>
+
+      <h2>七、未尽事宜</h2>
+      <p>本须知未尽事宜，应按照《空空电竞用户服务协议》执行。</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>© 2026 空空电竞 · 元宇宙陪伴平台</p>
+  <p><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">闽ICP备2022005067号-10</a></p>
+</footer>
+</body>
+</html>

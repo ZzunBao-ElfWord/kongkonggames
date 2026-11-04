@@ -1,0 +1,208 @@
+<template>
+	<view class="stage">
+		<view v-if="videos.length" class="native-tabs" :style="{ height: headerHeight + 'px', paddingTop: statusBarHeight + 'px' }">
+			<view class="native-tab"><text class="native-tab-active">视频</text><view class="native-tab-line"></view></view>
+			<view class="native-tab" @click="action('posts', currentIndex)"><text class="native-tab-text">帖子</text></view>
+		</view>
+		<swiper v-if="videos.length" class="swiper" :style="swiperStyle" vertical :current="currentIndex" :duration="250" @change="onChange" @animationfinish="onAnimationFinish" @touchstart="onTouchStart" @touchend="onTouchEnd" @touchcancel="onTouchEnd">
+			<swiper-item v-for="(item, index) in videos" :key="item.id" class="slide" :style="viewportStyle">
+				<video v-if="index === currentIndex && videoFit(item) === 'cover'" key="portrait-player" :id="'native-video-' + index" class="player" :style="viewportStyle"
+					:src="item.src" :controls="false" :loop="true" :muted="muted" :autoplay="playing"
+					:show-center-play-btn="false" :show-fullscreen-btn="false" :enable-progress-gesture="false" object-fit="cover"
+					@loadedmetadata="onMetadata($event, item.src)" @error="onError" />
+				<video v-else-if="index === currentIndex" key="landscape-player" :id="'native-video-' + index" class="player" :style="viewportStyle"
+					:src="item.src" :controls="false" :loop="true" :muted="muted" :autoplay="playing"
+					:show-center-play-btn="false" :show-fullscreen-btn="false" :enable-progress-gesture="false" object-fit="contain"
+					@loadedmetadata="onMetadata($event, item.src)" @error="onError" />
+				<!-- nvue 中 video、普通 view 和 swiper 均为原生渲染，手势可交给原生 swiper。 -->
+				<view class="tap-area" :style="viewportStyle" @click="action('toggle', index)"></view>
+				<view class="room" @click="action('author', index)">
+					<image class="room-avatar" :src="item.avatar || '/static/logo.png'" mode="aspectFill" />
+					<view class="room-text">
+						<text class="room-name">{{ item.author }}</text>
+						<text class="room-label">动态发布者</text>
+						<text class="room-date">{{ item.createTime }}</text>
+					</view>
+				</view>
+				<view class="actions">
+					<view class="avatar-box" @click="action('author', index)">
+						<image class="avatar" :src="item.avatar || '/static/logo.png'" mode="aspectFill" />
+						<text v-if="!item.followed && !item.isSelf" class="follow" @click.stop="action('follow', index)">+</text>
+					</view>
+					<view class="action" @click="action('like', index)">
+						<image class="action-icon" :src="item.liked ? '/static/images/video-heart-active.png' : '/static/images/video-heart.png'" mode="aspectFit" />
+						<text class="count">{{ item.likeCount }}</text>
+					</view>
+					<view class="action" @click="action('comments', index)">
+						<image class="action-icon" src="/static/images/video-message.png" mode="aspectFit" />
+						<text class="count">{{ item.commentCount }}</text>
+					</view>
+					<view class="action" @click="action('gifts', index)">
+						<image class="action-icon" src="/static/images/video-gift.png" mode="aspectFit" />
+						<text class="count">礼物</text>
+					</view>
+				</view>
+				<view class="info">
+					<text class="order" @click="action('order', index)">去下单</text>
+					<view class="author-row"><text class="author">{{ item.author }}</text><text class="badge">达人</text><text class="online">在线</text></view>
+					<text class="description" lines="2">{{ item.description }}</text>
+				</view>
+			</swiper-item>
+		</swiper>
+	</view>
+</template>
+
+<script>
+export default {
+	data() {
+		const info = uni.getSystemInfoSync()
+		return { videos: [], videoSizes: {}, currentIndex: 0, visible: false, playing: true, muted: true, width: info.windowWidth, height: info.windowHeight, headerHeight: 0, statusBarHeight: 0 }
+	},
+	computed: {
+		viewportStyle() { return { width: this.width + 'px', height: this.height + 'px' } },
+		swiperStyle() { return { ...this.viewportStyle, top: this.headerHeight + 'px' } }
+	},
+	created() {
+		this._stateHandler = state => this.applyState(state)
+		this._pauseHandler = event => {
+			if (event && event.index === this.currentIndex) this.pause(this.currentIndex)
+		}
+		uni.$on('video-stage:state', this._stateHandler)
+		uni.$on('video-stage:pause', this._pauseHandler)
+	},
+	mounted() {
+		uni.$emit('video-stage:ready')
+	},
+	beforeDestroy() {
+		clearTimeout(this._settleTimer)
+		this.pause(this.currentIndex)
+		uni.$off('video-stage:state', this._stateHandler)
+		uni.$off('video-stage:pause', this._pauseHandler)
+	},
+	methods: {
+		onTouchStart() { this._touching = true },
+		onTouchEnd() {
+			this._touching = false
+			// 未翻页的轻点/取消手势也需要释放排队状态。
+			clearTimeout(this._settleTimer)
+			this._settleTimer = setTimeout(() => { if (!this._animating) this.flushState() }, 300)
+		},
+		flushState() {
+			if (this._touching || this._animating || !this._queuedState) return
+			const state = this._queuedState
+			this._queuedState = null
+			this.applyState(state)
+		},
+		onAnimationFinish(event) {
+			const next = Number(event.detail.current)
+			this._animating = false
+			if (!this.visible || !this.videos[next]) return
+			if (next !== this.currentIndex) {
+				this.pause(this.currentIndex)
+				this.currentIndex = next
+				this.playing = true
+				this.action('change', next)
+			}
+			// 用户完成的翻页优先于动画期间父页面回传的旧索引。
+			if (this._queuedState) this._queuedState.index = next
+			this.flushState()
+		},
+		onMetadata(event, src) {
+			const detail = event.detail || {}
+			const width = Number(detail.width)
+			const height = Number(detail.height)
+			if (!(width > 0 && height > 0)) return
+			const previous = this.videoSizes[src]
+			if (!previous || previous.width !== width || previous.height !== height) this.$set(this.videoSizes, src, { width, height })
+		},
+		videoFit(item) {
+			const size = item.videoWidth && item.videoHeight ? { width: item.videoWidth, height: item.videoHeight } : this.videoSizes[item.src]
+			// 原生 video 的适配模式在创建时应用；key 随模式变化，防止切换后沿用旧模式。
+			return size && size.width <= size.height ? 'cover' : 'contain'
+		},
+		applyState(state) {
+			if (!state || !state.visible) {
+				// 原生子窗体由父页面整体 hide；保留 swiper，避免再次显示时原生页码复位。
+				this._queuedState = null
+				this._touching = false
+				this._animating = false
+				clearTimeout(this._settleTimer)
+				this.pause(this.currentIndex)
+				this.visible = false
+				return
+			}
+			if (this.visible && (this._touching || this._animating)) {
+				this._queuedState = state
+				return
+			}
+			// 以原生子窗体的实际区域计算 swiper 高度，不再次扣除 tabBar。
+			this.width = state.width
+			this.height = state.height
+			this.headerHeight = state.headerHeight
+			this.statusBarHeight = state.statusBarHeight
+			const incoming = state.videos || []
+			const sameOrder = incoming.length === this.videos.length && incoming.every((item, index) => item.id === this.videos[index].id)
+			if (sameOrder) {
+				incoming.forEach((item, index) => Object.keys(item).forEach(key => {
+					if (this.videos[index][key] !== item[key]) this.$set(this.videos[index], key, item[key])
+				}))
+			} else {
+				this.videos = incoming.map(item => ({ ...item }))
+			}
+			this.currentIndex = Math.min(state.index || 0, Math.max(0, this.videos.length - 1))
+			this.muted = !!state.muted
+			this.playing = !!state.playing
+			this.visible = true
+			this.$nextTick(() => {
+				if (!this.visible) return
+				const context = uni.createVideoContext('native-video-' + this.currentIndex, this)
+				if (this.playing) context.play()
+				else context.pause()
+			})
+		},
+		pause(index) { uni.createVideoContext('native-video-' + index, this).pause() },
+		onChange(event) {
+			const next = Number(event.detail.current)
+			if (next === this.currentIndex) return
+			this.pause(this.currentIndex)
+			// change 在原生动画尚未结束时触发，此时不能重建 video 或回写 current。
+			this._animating = true
+		},
+		action(type, index) { uni.$emit('video-stage:action', { type, index }) },
+		onError(event) { console.warn('[video-stage] playback error', event.detail) }
+	}
+}
+</script>
+
+<style>
+.stage { flex: 1; background-color: #000000; }
+.native-tabs { position: absolute; top: 0; left: 0; width: 750rpx; background-color: #211936; flex-direction: row; justify-content: center; align-items: center; }
+.native-tab { width: 150rpx; height: 72rpx; align-items: center; justify-content: center; }
+.native-tab-text { font-size: 34rpx; color: #bcb8c6; }
+.native-tab-active { font-size: 34rpx; color: #ffffff; font-weight: bold; }
+.native-tab-line { position: absolute; bottom: 2rpx; width: 48rpx; height: 5rpx; background-color: #b866ff; border-radius: 3rpx; }
+.swiper { position: absolute; left: 0; background-color: #000000; }
+.slide { position: relative; overflow: hidden; background-color: #000000; }
+.player { position: absolute; top: 0; left: 0; }
+.tap-area { position: absolute; top: 0; left: 0; background-color: rgba(0,0,0,0.001); }
+.room { position: absolute; left: 24rpx; top: 20rpx; width: 350rpx; height: 96rpx; border-width: 1rpx; border-color: #754a9e; border-radius: 22rpx; background-color: rgba(20,17,50,0.68); flex-direction: row; align-items: center; padding-left: 12rpx; }
+.room-avatar { width: 60rpx; height: 60rpx; border-radius: 30rpx; }
+.room-text { margin-left: 14rpx; }
+.room-name { color: #ffffff; font-size: 22rpx; }
+.room-label { color: #cccccc; font-size: 18rpx; margin-top: 2rpx; }
+.room-date { color: #eeeeee; font-size: 17rpx; margin-top: 2rpx; }
+.actions { position: absolute; right: 18rpx; bottom: 12rpx; width: 84rpx; align-items: center; }
+.avatar-box { width: 78rpx; height: 92rpx; align-items: center; margin-bottom: 10rpx; }
+.avatar { width: 72rpx; height: 72rpx; border-radius: 36rpx; border-width: 2rpx; border-color: #ffffff; }
+.follow { position: absolute; bottom: 6rpx; left: 23rpx; width: 32rpx; height: 32rpx; border-radius: 16rpx; background-color: #ff416c; color: #ffffff; font-size: 28rpx; text-align: center; line-height: 32rpx; }
+.action { width: 84rpx; height: 100rpx; align-items: center; }
+.action-icon { width: 62rpx; height: 62rpx; }
+.count { color: #ffffff; font-size: 21rpx; text-align: center; margin-top: 3rpx; }
+.info { position: absolute; left: 30rpx; right: 130rpx; bottom: 24rpx; }
+.order { width: 104rpx; height: 42rpx; border-radius: 8rpx; background-color: #c23cba; color: #ffffff; font-size: 21rpx; text-align: center; line-height: 42rpx; margin-bottom: 12rpx; }
+.author-row { flex-direction: row; align-items: center; margin-bottom: 10rpx; }
+.author { color: #ffffff; font-size: 30rpx; font-weight: bold; margin-right: 16rpx; }
+.badge { color: #ffffff; font-size: 17rpx; background-color: #a855f7; border-radius: 14rpx; padding-left: 8rpx; padding-right: 8rpx; margin-right: 8rpx; }
+.online { color: #ffffff; font-size: 17rpx; background-color: #ec4899; border-radius: 14rpx; padding-left: 8rpx; padding-right: 8rpx; }
+.description { color: #ffffff; font-size: 23rpx; }
+</style>

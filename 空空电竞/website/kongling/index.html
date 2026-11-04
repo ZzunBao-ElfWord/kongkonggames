@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>空空电竞 - 元宇宙陪伴平台 | 虚空有灵，陪伴有声</title>
+<meta name="description" content="空空电竞是你的元宇宙陪伴平台。电竞陪玩、元宇宙礼物开放平台、虚拟社交，海量认证陪玩随时组队，IP入驻链上确权礼物独一无二。虚空有灵，陪伴有声。">
+<link rel="icon" type="image/png" href="kongling-icon.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --deep-blue: #0a0520;
+    --space-blue: #110830;
+    --nebula-purple: #6c3ce0;
+    --neon-cyan: #00f0ff;
+    --magic-pink: #ff6bcc;
+    --text-primary: #e8e4ff;
+    --text-secondary: #a89cc8;
+    --text-muted: #6b5f8a;
+    --gradient-main: linear-gradient(135deg, #00f0ff 0%, #6c3ce0 50%, #ff6bcc 100%);
+    --gradient-text: linear-gradient(135deg, #00f0ff, #ff6bcc);
+    --glass-bg: rgba(26, 11, 61, 0.4);
+    --glass-border: rgba(108, 60, 224, 0.25);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--deep-blue);
+    color: var(--text-primary);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  .stars-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(108,60,224,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(255,107,204,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(0,240,255,0.05) 0%, transparent 60%);
+  }
+  .stars-bg::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20px 30px, #fff, transparent),
+      radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+      radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 160px 120px, #fff, transparent),
+      radial-gradient(2px 2px at 200px 50px, rgba(0,240,255,0.5), transparent),
+      radial-gradient(1px 1px at 250px 100px, rgba(255,107,204,0.4), transparent),
+      radial-gradient(1px 1px at 300px 150px, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 350px 30px, #fff, transparent);
+    background-size: 400px 300px;
+    animation: twinkle 6s ease-in-out infinite;
+  }
+  @keyframes twinkle { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
+
+  /* 导航栏 */
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 16px 0;
+    background: rgba(10, 5, 32, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(108, 60, 224, 0.15);
+    transition: all 0.3s ease;
+  }
+  .navbar.scrolled {
+    padding: 12px 0;
+    background: rgba(10, 5, 32, 0.92);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+  }
+  .nav-container {
+    max-width: 1200px; margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: #fff;
+  }
+  .nav-logo img {
+    width: 40px; height: 40px; border-radius: 10px;
+    box-shadow: 0 0 20px rgba(108,60,224,0.5);
+  }
+  .nav-logo span {
+    font-size: 20px; font-weight: 800; letter-spacing: 3px;
+    background: var(--gradient-text);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-links {
+    display: flex; align-items: center; gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-secondary); text-decoration: none;
+    font-size: 15px; font-weight: 500;
+    transition: color 0.3s; position: relative;
+  }
+  .nav-links a:hover { color: var(--neon-cyan); }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 2px; background: var(--gradient-main);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-download {
+    padding: 10px 24px; border-radius: 24px;
+    background: var(--gradient-main);
+    color: #fff !important; font-weight: 600;
+    box-shadow: 0 4px 20px rgba(108,60,224,0.4);
+    transition: all 0.3s;
+  }
+  .nav-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(108,60,224,0.6);
+  }
+  .nav-download::after { display: none; }
+  .menu-toggle {
+    display: none; background: none; border: none;
+    color: #fff; font-size: 24px; cursor: pointer;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    position: relative; padding: 120px 24px 80px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: 30%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px; height: 800px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(108,60,224,0.2) 0%, rgba(0,240,255,0.08) 40%, transparent 70%);
+    filter: blur(60px); z-index: 0;
+  }
+  .hero-container {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: center; position: relative; z-index: 1;
+  }
+  .hero-content h1 {
+    font-size: clamp(36px, 5.5vw, 64px); font-weight: 900;
+    line-height: 1.2; margin-bottom: 20px; letter-spacing: 2px;
+  }
+  .hero-content h1 .gradient {
+    background: var(--gradient-text);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-content .subtitle {
+    font-size: clamp(16px, 2vw, 20px); color: var(--text-secondary);
+    margin-bottom: 12px; letter-spacing: 1px;
+  }
+  .hero-content .slogan {
+    font-size: clamp(18px, 2.2vw, 24px); color: var(--neon-cyan);
+    font-weight: 300; letter-spacing: 6px; margin-bottom: 40px;
+    text-shadow: 0 0 30px rgba(0,240,255,0.4);
+  }
+  .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 32px; border-radius: 30px;
+    font-size: 16px; font-weight: 600;
+    text-decoration: none; cursor: pointer;
+    transition: all 0.3s; border: none;
+  }
+  .btn-primary {
+    background: var(--gradient-main); color: #fff;
+    box-shadow: 0 8px 30px rgba(108,60,224,0.5);
+  }
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(108,60,224,0.7);
+  }
+  .btn-secondary {
+    background: var(--glass-bg); color: #fff;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+  }
+  .btn-secondary:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 8px 30px rgba(0,240,255,0.2);
+  }
+  .btn-icon { font-size: 20px; }
+
+  .hero-visual {
+    display: flex; justify-content: center; align-items: center;
+    position: relative;
+  }
+  .hero-icon-wrap {
+    position: relative;
+    animation: float 5s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+  .hero-icon-wrap::before {
+    content: ''; position: absolute; inset: -30px;
+    border-radius: 50%;
+    background: var(--gradient-main);
+    filter: blur(50px); opacity: 0.4;
+    z-index: -1;
+  }
+  .hero-icon {
+    width: clamp(220px, 28vw, 340px);
+    height: clamp(220px, 28vw, 340px);
+    border-radius: 28%;
+    box-shadow:
+      0 0 60px rgba(108,60,224,0.6),
+      0 0 120px rgba(0,240,255,0.3),
+      0 30px 80px rgba(0,0,0,0.5);
+  }
+  .hero-badge {
+    position: absolute; padding: 10px 20px;
+    background: var(--glass-bg); backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border); border-radius: 20px;
+    font-size: 14px; color: var(--text-primary);
+    white-space: nowrap;
+  }
+  .hero-badge.b1 { top: 10%; left: -10%; animation: float 4s ease-in-out infinite 0.5s; }
+  .hero-badge.b2 { bottom: 15%; right: -8%; animation: float 4.5s ease-in-out infinite 1s; }
+  .hero-badge.b3 { top: 50%; right: -15%; animation: float 5s ease-in-out infinite 1.5s; }
+
+  /* 通用区块 */
+  section { padding: 100px 24px; position: relative; z-index: 1; }
+  .section-container { max-width: 1200px; margin: 0 auto; }
+  .section-header { text-align: center; margin-bottom: 60px; }
+  .section-tag {
+    display: inline-block; padding: 6px 20px; border-radius: 20px;
+    background: rgba(108,60,224,0.12); border: 1px solid rgba(108,60,224,0.35);
+    color: var(--neon-cyan); font-size: 13px; letter-spacing: 3px;
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-size: clamp(28px, 4vw, 44px); font-weight: 800; margin-bottom: 16px;
+  }
+  .section-title .gradient {
+    background: var(--gradient-text);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .section-desc {
+    color: var(--text-secondary); font-size: 17px;
+    max-width: 640px; margin: 0 auto;
+  }
+
+  /* 功能卡片 */
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 28px;
+  }
+  .feature-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px; padding: 40px 32px;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
+    position: relative; overflow: hidden;
+  }
+  .feature-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--gradient-main); opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .feature-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(0,240,255,0.4);
+    box-shadow: 0 20px 60px rgba(108,60,224,0.3);
+  }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-icon {
+    width: 64px; height: 64px; border-radius: 16px;
+    background: var(--gradient-main);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px; margin-bottom: 24px;
+    box-shadow: 0 8px 24px rgba(108,60,224,0.4);
+  }
+  .feature-card h3 {
+    font-size: 22px; margin-bottom: 14px; color: #fff;
+  }
+  .feature-card p {
+    color: var(--text-secondary); font-size: 15px; line-height: 1.8;
+  }
+
+  /* 业务详情区 */
+  .business-section {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: center; margin-bottom: 80px;
+  }
+  .business-section.reverse { direction: rtl; }
+  .business-section.reverse > * { direction: ltr; }
+  .business-image {
+    border-radius: 20px; overflow: hidden;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .business-image img { width: 100%; display: block; }
+  .business-content .tag {
+    display: inline-block; padding: 6px 16px; border-radius: 16px;
+    font-size: 13px; font-weight: 600; letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+  .business-content .tag.cyan {
+    background: rgba(0,240,255,0.1); color: var(--neon-cyan);
+    border: 1px solid rgba(0,240,255,0.3);
+  }
+  .business-content .tag.pink {
+    background: rgba(255,107,204,0.1); color: var(--magic-pink);
+    border: 1px solid rgba(255,107,204,0.3);
+  }
+  .business-content h3 {
+    font-size: clamp(24px, 3vw, 36px); font-weight: 800;
+    margin-bottom: 20px; color: #fff;
+  }
+  .business-content > p {
+    color: var(--text-secondary); font-size: 16px;
+    margin-bottom: 24px; line-height: 1.9;
+  }
+  .business-points { list-style: none; margin-bottom: 28px; }
+  .business-points li {
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 14px; color: var(--text-secondary); font-size: 15px;
+  }
+  .business-points li::before {
+    content: '✦'; color: var(--neon-cyan);
+    font-size: 14px; flex-shrink: 0; margin-top: 2px;
+  }
+  .business-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-small {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px; border-radius: 24px;
+    font-size: 14px; font-weight: 600;
+    text-decoration: none; cursor: pointer;
+    transition: all 0.3s; border: none;
+  }
+  .btn-small.primary {
+    background: var(--gradient-main); color: #fff;
+    box-shadow: 0 4px 16px rgba(108,60,224,0.4);
+  }
+  .btn-small.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(108,60,224,0.6);
+  }
+  .btn-small.outline {
+    background: transparent; color: var(--neon-cyan);
+    border: 1px solid rgba(0,240,255,0.4);
+  }
+  .btn-small.outline:hover {
+    background: rgba(0,240,255,0.1);
+    border-color: var(--neon-cyan);
+  }
+
+  /* 合作入驻专区 */
+  .partner-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  .partner-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px; padding: 36px 28px;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .partner-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--gradient-main);
+  }
+  .partner-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,107,204,0.4);
+    box-shadow: 0 20px 50px rgba(108,60,224,0.3);
+  }
+  .partner-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--gradient-main);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; margin: 0 auto 20px;
+    box-shadow: 0 8px 24px rgba(108,60,224,0.5);
+  }
+  .partner-card h4 {
+    font-size: 20px; color: #fff; margin-bottom: 10px;
+  }
+  .partner-card p {
+    color: var(--text-secondary); font-size: 14px;
+    line-height: 1.7; margin-bottom: 20px;
+  }
+  .partner-card .btn-small {
+    width: 100%; justify-content: center;
+  }
+
+  /* 价值区 */
+  .value-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+  }
+  .value-card {
+    text-align: center; padding: 36px 24px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    transition: all 0.3s;
+  }
+  .value-card:hover {
+    border-color: rgba(255,107,204,0.4);
+    transform: translateY(-4px);
+  }
+  .value-card .icon { font-size: 36px; margin-bottom: 16px; }
+  .value-card h4 { font-size: 18px; color: #fff; margin-bottom: 10px; }
+  .value-card p { font-size: 14px; color: var(--text-secondary); }
+
+  /* 传媒区 */
+  .media-section {
+    background: linear-gradient(135deg, rgba(108,60,224,0.08), rgba(255,107,204,0.05));
+    border: 1px solid var(--glass-border);
+    border-radius: 24px; padding: 60px;
+    margin-top: 40px;
+  }
+  .media-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px; margin-top: 40px; margin-bottom: 40px;
+  }
+  .media-item h4 {
+    font-size: 18px; color: var(--neon-cyan); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .media-item p {
+    color: var(--text-secondary); font-size: 15px; line-height: 1.8;
+  }
+  .media-contact {
+    text-align: center; padding-top: 32px;
+    border-top: 1px solid rgba(108,60,224,0.2);
+  }
+  .media-contact p {
+    color: var(--text-secondary); font-size: 16px; margin-bottom: 20px;
+  }
+  .media-contact .contact-info {
+    display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .media-contact .contact-info span {
+    color: var(--text-primary); font-size: 15px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* CTA下载区 */
+  .cta-section {
+    text-align: center; padding: 100px 24px;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(108,60,224,0.2), transparent 70%);
+    filter: blur(40px);
+  }
+  .cta-section h2 {
+    font-size: clamp(28px, 4vw, 44px); font-weight: 800;
+    margin-bottom: 16px; position: relative;
+  }
+  .cta-section p {
+    color: var(--text-secondary); font-size: 18px;
+    margin-bottom: 40px; position: relative;
+  }
+  .cta-buttons {
+    display: flex; gap: 20px; justify-content: center;
+    flex-wrap: wrap; position: relative;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid rgba(108,60,224,0.15);
+    padding: 60px 24px 30px;
+    position: relative; z-index: 1;
+    background: rgba(10, 5, 32, 0.6);
+  }
+  .footer-container { max-width: 1200px; margin: 0 auto; }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 32px; margin-bottom: 40px;
+  }
+  .footer-brand .logo {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+  }
+  .footer-brand .logo img {
+    width: 36px; height: 36px; border-radius: 8px;
+  }
+  .footer-brand .logo span {
+    font-size: 20px; font-weight: 800; letter-spacing: 3px;
+    background: var(--gradient-text);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .footer-brand p {
+    color: var(--text-muted); font-size: 14px; line-height: 1.8;
+    max-width: 300px;
+  }
+  .footer-col h5 {
+    color: #fff; font-size: 15px; margin-bottom: 18px; font-weight: 600;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a {
+    color: var(--text-muted); text-decoration: none;
+    font-size: 14px; transition: color 0.3s;
+  }
+  .footer-col a:hover { color: var(--neon-cyan); }
+  .footer-bottom {
+    border-top: 1px solid rgba(108,60,224,0.1);
+    padding-top: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-bottom p { color: var(--text-muted); font-size: 13px; }
+
+  /* 滚动动画 */
+  .fade-in {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* 响应式 */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .menu-toggle { display: block; }
+    .nav-links.open {
+      display: flex; flex-direction: column;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: rgba(10,5,32,0.95); backdrop-filter: blur(20px);
+      padding: 24px; gap: 20px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .hero-container { grid-template-columns: 1fr; text-align: center; }
+    .hero-content { order: 2; }
+    .hero-visual { order: 1; }
+    .hero-buttons { justify-content: center; }
+    .business-section, .business-section.reverse {
+      grid-template-columns: 1fr; direction: ltr;
+    }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .media-section { padding: 40px 24px; }
+  }
+  @media (max-width: 500px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .hero-badge { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="stars-bg"></div>
+
+<!-- 导航栏 -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <img src="kongling-icon.png" alt="空空电竞">
+      <span>空空电竞</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">首页</a></li>
+      <li><a href="#features">核心功能</a></li>
+      <li><a href="#pewan">电竞陪玩</a></li>
+      <li><a href="#gift">元宇宙礼物</a></li>
+      <li><a href="/partner/">合作入驻</a></li>
+      <li><a href="#download" class="nav-download">立即下载</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="home">
+  <div class="hero-container">
+    <div class="hero-content">
+      <p class="subtitle">KONGLING · 元宇宙陪伴平台</p>
+      <h1>你的<span class="gradient">元宇宙</span><br>陪伴者</h1>
+      <p class="slogan">虚空有灵 · 陪伴有声</p>
+      <div class="hero-buttons">
+        <a href="#download" class="btn btn-primary">
+          <span class="btn-icon">⬇</span> 立即下载
+        </a>
+        <a href="/partner/" class="btn btn-secondary">
+          <span class="btn-icon">🤝</span> 合作入驻
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-icon-wrap">
+        <img src="kongling-icon.png" alt="空空电竞" class="hero-icon">
+        <div class="hero-badge b1">🎮 海量认证陪玩</div>
+        <div class="hero-badge b2">🎁 元宇宙礼物</div>
+        <div class="hero-badge b3">🌌 沉浸式社交</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 核心功能 -->
+<section id="features">
+  <div class="section-container">
+    <div class="section-header fade-in">
+      <span class="section-tag">CORE FEATURES</span>
+      <h2 class="section-title">三大核心<span class="gradient">功能</span></h2>
+      <p class="section-desc">以电竞陪玩为入口，以元宇宙礼物开放平台为载体，构建沉浸式虚拟社交空间</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🎮</div>
+        <h3>电竞陪玩</h3>
+        <p>覆盖王者荣耀、英雄联盟、和平精英、原神等主流游戏。海量认证陪玩，大神/萌妹/声控多维筛选，技术carry+暖心陪伴，随时组队开黑。打手、公会火热入驻中。</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🎁</div>
+        <h3>元宇宙礼物开放平台</h3>
+        <p>开放IP入驻的元宇宙礼物平台，装饰/特效/限定多品类持续上新。链上确权独一无二，送礼/收藏/展示多元玩法，与陪玩场景深度联动，打赏表白纪念一应俱全。</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🌌</div>
+        <h3>元宇宙社交</h3>
+        <p>虚拟空间实时互动，找到懂你的同好。从一对一陪伴到群体共鸣，打造专属数字社交圈，让每一次相遇都是灵魂的共振。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 电竞陪玩详情 -->
+<section id="pewan">
+  <div class="section-container">
+    <div class="business-section fade-in">
+      <div class="business-image">
+        <img src="images/pewan.jpg" alt="电竞陪玩">
+      </div>
+      <div class="business-content">
+        <span class="tag cyan">🎮 电竞陪玩</span>
+        <h3>上分有队友，<br>孤独有空空电竞</h3>
+        <p>专业电竞陪玩平台，主流游戏全覆盖。无论是想冲分上段，还是只想有人陪你聊聊天打打游戏，空空电竞都能为你精准匹配最合适的陪伴者。</p>
+        <ul class="business-points">
+          <li>海量认证陪玩，技术/声音/性格多维筛选</li>
+          <li>实时匹配秒开黑，不等待不尴尬</li>
+          <li>平台担保交易，安全有保障</li>
+          <li>不止陪玩，更是懂你的游戏伙伴</li>
+        </ul>
+        <div class="business-cta">
+          <a href="/partner/" class="btn-small primary">🎯 打手入驻</a>
+          <a href="/partner/" class="btn-small outline">🏢 公会入驻</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 元宇宙礼物详情 -->
+<section id="gift">
+  <div class="section-container">
+    <div class="business-section reverse fade-in">
+      <div class="business-image">
+        <img src="images/gift.jpg" alt="元宇宙礼物">
+      </div>
+      <div class="business-content">
+        <span class="tag pink">🎁 元宇宙礼物开放平台</span>
+        <h3>每一份心意，<br>都独一无二</h3>
+        <p>空空电竞元宇宙礼物开放平台，面向全球IP开放入驻。提供丰富多样的虚拟礼物，链上确权不可篡改，每一份礼物都承载着专属心意。送花会谢，元宇宙礼物永远闪耀。</p>
+        <ul class="business-points">
+          <li>开放IP入驻，品牌/动漫/游戏/艺术家均可合作</li>
+          <li>丰富虚拟礼物库，装饰/特效/限定多品类持续上新</li>
+          <li>链上确权，每一份礼物独一无二不可篡改</li>
+          <li>送礼/收藏/展示多元玩法，与陪玩场景深度联动</li>
+        </ul>
+        <div class="business-cta">
+          <a href="/partner/" class="btn-small primary">🖼️ IP入驻开放平台</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 合作入驻专区 -->
+<section id="partner">
+  <div class="section-container">
+    <div class="section-header fade-in">
+      <span class="section-tag">PARTNER PROGRAM</span>
+      <h2 class="section-title">合作<span class="gradient">入驻</span></h2>
+      <p class="section-desc">空空电竞开放平台，欢迎打手、公会、IP方、网红达人携手共建元宇宙陪伴生态</p>
+    </div>
+    <div class="partner-grid">
+      <div class="partner-card fade-in">
+        <div class="partner-icon">🎯</div>
+        <h4>打手入驻</h4>
+        <p>技术过硬、声音好听、性格有趣？加入空空电竞陪玩大军，平台海量订单，灵活接单，收入上不封顶。认证审核通过即可上线接单。</p>
+        <a href="/partner/" class="btn-small primary">立即入驻</a>
+      </div>
+      <div class="partner-card fade-in">
+        <div class="partner-icon">🏢</div>
+        <h4>公会入驻</h4>
+        <p>电竞公会、陪玩工作室、MCN机构批量入驻。享受公会专属政策、订单倾斜、运营扶持、结算优惠，与空空电竞共同成长。</p>
+        <a href="/partner/" class="btn-small primary">公会合作</a>
+      </div>
+      <div class="partner-card fade-in">
+        <div class="partner-icon">🖼️</div>
+        <h4>IP入驻元宇宙礼物</h4>
+        <p>品牌方、动漫IP、游戏IP、艺术家、设计师均可入驻空空电竞元宇宙礼物开放平台。你的IP变成独一无二的链上礼物，触达海量年轻用户。</p>
+        <a href="/partner/" class="btn-small primary">IP合作</a>
+      </div>
+      <div class="partner-card fade-in">
+        <div class="partner-icon">📱</div>
+        <h4>网红达人对接</h4>
+        <p>抖音、快手、B站、小红书网红达人合作对接。内容种草、直播带货、联名活动、专属礼物，全链路赋能品牌曝光与用户增长。</p>
+        <a href="/partner/" class="btn-small primary">达人合作</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 核心价值 -->
+<section>
+  <div class="section-container">
+    <div class="section-header fade-in">
+      <span class="section-tag">WHY KONGLING</span>
+      <h2 class="section-title">为什么选择<span class="gradient">空空电竞</span></h2>
+      <p class="section-desc">不做冷冰冰的匹配平台，做懂你的数字伙伴</p>
+    </div>
+    <div class="value-grid">
+      <div class="value-card fade-in">
+        <div class="icon">💝</div>
+        <h4>陪伴感</h4>
+        <p>打破孤独，随时有人懂你<br>7×24小时匹配</p>
+      </div>
+      <div class="value-card fade-in">
+        <div class="icon">🚀</div>
+        <h4>沉浸感</h4>
+        <p>元宇宙级别虚拟交互体验<br>身临其境的社交</p>
+      </div>
+      <div class="value-card fade-in">
+        <div class="icon">💎</div>
+        <h4>专属感</h4>
+        <p>元宇宙礼物链上确权<br>每一份心意永久铭记</p>
+      </div>
+      <div class="value-card fade-in">
+        <div class="icon">👥</div>
+        <h4>社群感</h4>
+        <p>电竞同好聚集地<br>从一对一到群体共鸣</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA下载 -->
+<section class="cta-section" id="download">
+  <div class="section-container">
+    <div class="fade-in">
+      <h2>开启你的<span style="background:var(--gradient-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">元宇宙陪伴</span>之旅</h2>
+      <p>虚空有灵，陪伴有声。下载空空电竞，遇见懂你的陪伴。</p>
+      <div class="cta-buttons">
+        <a href="#" class="btn btn-primary" onclick="return false;" style="opacity:0.85;cursor:not-allowed;">
+          <span class="btn-icon">🍎</span> App Store 即将上线
+        </a>
+        <a href="http://81.70.85.75:3001/kongling.apk" class="btn btn-secondary">
+          <span class="btn-icon">🤖</span> 安卓下载
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <img src="kongling-icon.png" alt="空空电竞">
+          <span>空空电竞</span>
+        </div>
+        <p>你的元宇宙陪伴者。以电竞陪玩为核心，以元宇宙礼物开放平台为载体，打造有温度的虚拟社交空间。</p>
+      </div>
+      <div class="footer-col">
+        <h5>产品</h5>
+        <ul>
+          <li><a href="#pewan">电竞陪玩</a></li>
+          <li><a href="#gift">元宇宙礼物</a></li>
+          <li><a href="#features">核心功能</a></li>
+          <li><a href="#download">立即下载</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>合作</h5>
+        <ul>
+          <li><a href="/partner/">打手入驻</a></li>
+          <li><a href="/partner/">公会入驻</a></li>
+          <li><a href="/partner/">IP入驻</a></li>
+          <li><a href="/partner/">网红达人合作</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>法律协议</h5>
+        <ul>
+          <li><a href="/terms/">用户协议</a></li>
+          <li><a href="/privacy/">隐私政策</a></li>
+          <li><a href="/recharge/">充值协议</a></li>
+          <li><a href="/account-deletion/">账号注销</a></li>
+          <li><a href="/partner-agreement/">入驻服务协议</a></li>
+          <li><a href="/ranking-guarantee/">游戏上分保障</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>服务支持</h5>
+        <ul>
+          <li><a href="/support/">技术支持</a></li>
+          <li><a href="/help/">帮助中心</a></li>
+          <li><a href="/youth/">青少年模式</a></li>
+          <li><a href="/service-standard/">平台服务规范</a></li>
+          <li><a href="/code-of-conduct/">用户行为守则</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 空空电竞 · 元宇宙陪伴平台</p>
+      <p><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;">闽ICP备2022005067号-10</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // 导航栏滚动效果
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+
+  // 移动端菜单
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+    });
+  });
+
+  // 滚动渐入动画
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

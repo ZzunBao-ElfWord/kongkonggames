@@ -1,0 +1,238 @@
+{
+    "name" : "空空电竞",
+    "appid" : "__UNI__E8E0B17",
+    "description" : "",
+    "versionName" : "1.0.1",
+    "versionCode" : 1039,
+    "transformPx" : false,
+    "sassImplementationName" : "node-sass",
+    /* 5+App特有相关 */
+    "app-plus" : {
+        "safearea" : {
+            //安全区域配置，仅iOS平台生效  
+            "bottom" : {
+                // 底部安全区域配置  
+                "offset" : "none" // 底部安全区域偏移，"none"表示不空出安全区域, "auto"自动计算空出安全区域，默认值为"none"  
+            }
+        },
+        "privacy" : {
+            "prompt" : "template",
+            "template" : {
+                "title" : "服务协议和隐私政策",
+                "message" : "　　请你务必审慎阅读、充分理解“服务协议”和“隐私政策”各条款，包括但不限于：为了更好地向你提供服务，我们需要收集必要的设备标识、网络信息和操作日志，用于提供服务、保障安全和优化应用性能。<br/>　　你可阅读<a href=\"https://konglingapp.com/terms/\">《服务协议》</a>和<a href=\"https://konglingapp.com/privacy/\">《隐私政策》</a>了解详细信息。如果你同意，请点击下面同意按钮开始接受我们的服务。",
+                "buttonAccept" : "同意",
+                "buttonRefuse" : "不同意"
+            }
+        },
+        "usingComponents" : true,
+        "nvueStyleCompiler" : "uni-app",
+        "compilerVersion" : 3,
+        "splashscreen" : {
+            "alwaysShowBeforeRender" : true,
+            "waiting" : true,
+            "autoclose" : true,
+            "delay" : 0
+        },
+        /* 模块配置 */
+        "modules" : {
+            "Payment" : {},
+            "Share" : {},
+            "OAuth" : {},
+            "Maps" : {},
+            "VideoPlayer" : {},
+            "Camera" : {},
+            "Push" : {},
+            "Record" : {}
+        },
+        /* 应用发布信息 */
+        "distribute" : {
+            /* android打包配置 */
+            "android" : {
+                "permissions" : [
+                    "<uses-feature android:name=\"android.hardware.camera\"/>",
+                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+                    "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
+                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+                ],
+                "autoSdkPermissions" : true,
+                "targetSdkVersion" : 30,
+                "schemes" : "konglingapp",
+                "abiFilters" : []
+            },
+            /* ios打包配置 */
+            "ios" : {
+                "dSYMs" : false,
+                "privacyDescription" : {
+                    "NSLocationWhenInUseUsageDescription" : "您进入首页时，空灵会获取当前位置，用于识别所在城市，并根据位置展示同城用户和相关陪玩服务。"
+                }
+            },
+            /* SDK配置 */
+            "sdkConfigs" : {
+                "payment" : {
+                    "weixin" : {
+                        "__platform__" : [ "android" ],
+                        "appid" : "wxdbd888f4bc8f08cd",
+                        "UniversalLinks" : "https://tk.gomyorder.cn/"
+                    },
+                    "appleiap" : {
+                        "__platform__" : [ "ios" ]
+                    },
+                    "alipay" : {
+                        "__platform__" : [ "android" ]
+                    }
+                },
+                "share" : {
+                    "weixin" : {
+                        "appid" : "wxdbd888f4bc8f08cd",
+                        "UniversalLinks" : "https://tk.gomyorder.cn/"
+                    }
+                },
+                "oauth" : {
+                    "weixin" : {
+                        "appid" : "wxdbd888f4bc8f08cd",
+                        "appsecret" : "",
+                        "UniversalLinks" : "https://tk.gomyorder.cn/"
+                    }
+                },
+                "ad" : {},
+                "maps" : {
+                    "amap" : {
+                        "appkey_ios" : "REDACTED_CONFIGURE_LOCALLY",
+                        "appkey_android" : "REDACTED_CONFIGURE_LOCALLY"
+                    }
+                },
+                "push" : {
+                    "unipush" : {}
+                }
+            },
+            "icons" : {
+                "android" : {
+                    "hdpi" : "static/app-icons/72x72.png",
+                    "xhdpi" : "static/app-icons/96x96.png",
+                    "xxhdpi" : "static/app-icons/144x144.png",
+                    "xxxhdpi" : "static/app-icons/192x192.png"
+                },
+                "ios" : {
+                    "appstore" : "static/app-icons/1024x1024.png",
+                    "ipad" : {
+                        "app" : "static/app-icons/76x76.png",
+                        "app@2x" : "static/app-icons/152x152.png",
+                        "notification" : "static/app-icons/20x20.png",
+                        "notification@2x" : "static/app-icons/40x40.png",
+                        "proapp@2x" : "static/app-icons/167x167.png",
+                        "settings" : "static/app-icons/29x29.png",
+                        "settings@2x" : "static/app-icons/58x58.png",
+                        "spotlight" : "static/app-icons/40x40.png",
+                        "spotlight@2x" : "static/app-icons/80x80.png"
+                    },
+                    "iphone" : {
+                        "app@2x" : "static/app-icons/120x120.png",
+                        "app@3x" : "static/app-icons/180x180.png",
+                        "notification@2x" : "static/app-icons/40x40.png",
+                        "notification@3x" : "static/app-icons/60x60.png",
+                        "settings@2x" : "static/app-icons/58x58.png",
+                        "settings@3x" : "static/app-icons/87x87.png",
+                        "spotlight@2x" : "static/app-icons/80x80.png",
+                        "spotlight@3x" : "static/app-icons/120x120.png"
+                    }
+                }
+            }
+        },
+        "nativePlugins" : {
+            "TRTCCloudUniPlugin-TRTCCloudImpl" : {
+                "__plugin_info__" : {
+                    "name" : "【官方】腾讯云实时音视频SDK",
+                    "description" : "uni-app TRTC SDK 是腾讯云实时音视频通讯解决方案在 uni-app 上的 SDK，提供实时音视频服务",
+                    "platforms" : "Android,iOS",
+                    "url" : "https://ext.dcloud.net.cn/plugin?id=7774",
+                    "android_package_name" : "com.kongling.app",
+                    "ios_bundle_id" : "com.kongling.app",
+                    "isCloud" : true,
+                    "bought" : 1,
+                    "pid" : "7774",
+                    "parameters" : {}
+                }
+            }
+        }
+    },
+    /* 快应用特有相关 */
+    "quickapp" : {},
+    /* 小程序特有相关 */
+    "mp-weixin" : {
+        "appid" : "wx21e5f438620960ae",
+        "setting" : {
+            "urlCheck" : false,
+            "minified" : true,
+            "postcss" : false
+        },
+        "usingComponents" : true,
+        "optimization" : {
+            "subPackages" : true
+        },
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "获取用户位置"
+            }
+        },
+        "requiredPrivateInfos" : [ "getLocation", "chooseLocation" ]
+    },
+    "mp-alipay" : {
+        "usingComponents" : true
+    },
+    "mp-baidu" : {
+        "usingComponents" : true
+    },
+    "mp-toutiao" : {
+        "usingComponents" : true
+    },
+    "uniStatistics" : {
+        "enable" : false
+    },
+    "h5" : {
+        "router" : {
+            "mode" : "hash",
+            "base" : "/h5/"
+        },
+        "devServer" : {
+            "https" : false,
+            "port" : "",
+            "disableHostCheck" : true,
+            "proxy" : {
+                // 可代理多个
+                "/TencentGet" : {
+                    "target" : "https://apis.map.qq.com/ws/geocoder/v1/", // 腾讯地图逆地址解析
+                    "changeOrigin" : true,
+                    "secure" : false,
+                    "pathRewrite" : {
+                        "^/TencentGet" : ""
+                    }
+                }
+            }
+        },
+        "sdkConfigs" : {
+            "maps" : {
+                "qqmap" : {
+                    "key" : "REDACTED_CONFIGURE_LOCALLY"
+                }
+            }
+        },
+        "title" : "空灵"
+    }
+}

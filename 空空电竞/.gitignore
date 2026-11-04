@@ -1,0 +1,45 @@
+# Java build outputs and logs
+target/
+logs/
+*.log
+
+# JavaScript dependencies and frontend build outputs
+**/node_modules/
+**/dist/
+**/coverage/
+
+# uni-app generated outputs
+**/unpackage/
+
+# Mobile packages
+*.apk
+*.aab
+*.ipa
+
+# Signing certificates and private keys
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+
+# Database dumps
+db/
+*.sql
+
+# Local credential material
+peiwan-uniapp/file/
+.env
+.env.*
+!.env.example
+
+# IDE and OS files
+.idea/
+.vscode/
+.hbuilderx/
+.DS_Store
+Thumbs.db
+
+# Local backups (source remains in the normal project directories)
+backup/

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pwyl.modules.app.dao.RiskDao">
+
+    <select id="selectRiskList" resultType="com.pwyl.modules.app.entity.Risk">
+        select r.* from risk r
+        left join tb_user u on u.user_id=r.user_id
+        where 1=1
+        <if test="userName!=null and userName!=''">
+            and u.user_name like concat('%',#{userName},'%')
+        </if>
+        <if test="phone!=null and phone!=''">
+            and u.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="riskType!=null and riskType!=0">
+            and r.risk_type=#{riskType}
+        </if>
+        order by r.create_time desc
+    </select>
+
+    <select id="selectRiskGroupList" resultType="Map">
+        select user_id as userId,counts,
+               (select count(*) from risk s where s.user_id=a.user_id and risk_type=1) as ipCount,
+               (select count(*) from risk s where s.user_id=a.user_id and risk_type=2) as talkCount,
+               (select count(*) from risk s where s.user_id=a.user_id and risk_type=3) as talkCommentCount,
+               (select count(*) from risk s where s.user_id=a.user_id and risk_type=4) as serviceCommentCount,
+               (select count(*) from risk s where s.user_id=a.user_id and risk_type=5) as chatCount,
+               (select count(*) from risk s where s.user_id=a.user_id and risk_type=6) as messageCount
+        from
+            (
+                select count(*) as counts ,r.user_id from risk r
+                left join tb_user u on r.user_id=u.user_id
+                where 1=1
+                <if test="userName!=null and userName!=''">
+                    and u.user_name like concat('%',#{userName},'%')
+                </if>
+                <if test="phone!=null and phone!=''">
+                    and u.phone like concat('%',#{phone},'%')
+                </if>
+                group by r.user_id
+            ) a
+        <if test="riskSort!=null and riskSort==0">
+            order by counts desc
+        </if>
+        <if test="riskSort!=null and riskSort==1">
+            order by ipCount desc
+        </if>
+        <if test="riskSort!=null and riskSort==2">
+            order by talkCount desc
+        </if>
+        <if test="riskSort!=null and riskSort==3">
+            order by talkCommentCount desc
+        </if>
+        <if test="riskSort!=null and riskSort==4">
+            order by serviceCommentCount desc
+        </if>
+        <if test="riskSort!=null and riskSort==5">
+            order by chatCount desc
+        </if>
+        <if test="riskSort!=null and riskSort==6">
+            order by messageCount desc
+        </if>
+    </select>
+
+
+</mapper>

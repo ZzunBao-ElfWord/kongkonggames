@@ -1,0 +1,759 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		//#ifdef H5
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		//#endif
+		//#ifndef H5
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		//#endif
+		// #ifdef APP-PLUS
+		{
+			"path": "pages/video/post-player",
+			"style": { "navigationBarTitleText": "视频播放", "navigationBarBackgroundColor": "#000000", "disableScroll": true }
+		},
+		// #endif
+		{
+			"path": "pages/index/details",
+			"style": {
+				"navigationBarTitleText": "动态",
+				"navigationStyle": "custom"
+			}
+		},
+
+		{
+			"path": "pages/index/search/index",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		},
+		{
+			"path": "pages/index/game/gameList",
+			"style": {
+				"navigationBarTitleText": "游戏列表",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/index/game/order",
+			"style": {
+				"navigationBarTitleText": "技能详情"
+			}
+		},
+		{
+			"path": "pages/index/game/myOrder",
+			"style": {
+				"navigationBarTitleText": "发布详情"
+			}
+		},
+		{
+			"path": "pages/index/game/orderDet",
+			"style": {
+				"navigationBarTitleText": "订单详情"
+			}
+		},
+		{
+			"path": "pages/index/game/lowTaking",
+			"style": {
+				"navigationBarTitleText": "萌新推荐",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/index/citys/citys",
+			"style": {
+				"navigationBarTitleText": "城市"
+			}
+		},
+		{
+			"path": "pages/index/webView",
+			"style": {
+				"navigationBarTitleText": "网页"
+			}
+		},
+
+		{
+			"path": "pages/msg/index",
+			"style": {
+				"navigationBarTitleText": "消息",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/msg/im",
+			"style": {
+				"navigationBarTitleText": "消息"
+			}
+		}, {
+			"path": "pages/msg/gonggao",
+			"style": {
+				"navigationBarTitleText": "官方公告",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/msg/chat",
+			"style": {
+				"navigationBarTitleText": "联系客服",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none",
+					"scrollIndicator": "none",
+					"titleNView": true
+				}
+			}
+		},
+		{
+			"path": "pages/msg/addmsg",
+			"style": {
+				"navigationBarTitleText": "我的词语",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none",
+					"scrollIndicator": "none",
+					"titleNView": true
+				}
+			}
+		},
+		{
+			"path": "pages/msg/add",
+			"style": {
+				"navigationBarTitleText": "添加词语",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none",
+					"scrollIndicator": "none",
+					"titleNView": true
+				}
+			}
+		},
+		{
+			"path": "pages/msg/chathistory",
+			"style": {
+				"navigationBarTitleText": "聊天记录",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none",
+					"scrollIndicator": "none",
+					"titleNView": true
+				}
+			}
+		},
+		{
+			"path": "pages/msg/message",
+			"style": {
+				"navigationBarTitleText": "系统消息",
+				"enablePullDownRefresh": true
+			}
+		},
+		//#ifdef H5
+		{
+			"path": "pages/my/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		//#endif
+		//#ifndef H5
+		{
+			"path": "pages/my/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		//#endif
+		{
+			"path": "pages/my/invitationUser",
+			"style": {
+				"navigationBarTitleText": "邀请好友",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none",
+					"scrollIndicator": "none",
+					"titleNView": true
+				}
+			}
+		},
+		{
+			"path": "pages/my/userinfo",
+			"style": {
+				"navigationBarTitleText": "个人信息"
+			}
+		},
+
+		{
+			"path": "pages/public/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/public/bind",
+			"style": {
+				"navigationBarTitleText": "换绑手机号"
+			}
+		},
+		{
+			"path": "pages/public/forgetPwd",
+			"style": {
+				"navigationBarTitleText": "重置密码"
+			}
+		},
+
+		{
+			"path": "pages/public/loginphone",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/public/pwd",
+			"style": {
+				"navigationBarTitleText": "修改密码"
+			}
+		},
+		{
+			"path": "pages/public/register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		}, {
+			"path": "pages/classification/classification",
+			"style": {
+				"navigationBarTitleText": "分类",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/classification/moreCategories",
+			"style": {
+				"navigationBarTitleText": "更多分类",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/video/index",
+			"style": {
+				"navigationBarTitleText": "视频",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"popGesture": "none",
+					"subNVues": [{
+						"id": "video-native-stage",
+						"path": "pages/video/native-stage",
+						"style": { "position": "absolute", "top": "0px", "bottom": "0px", "left": "0px", "width": "100%", "background": "#000000" }
+					}]
+				}
+			}
+		}
+	],
+
+	"subPackages": [{
+		"root": "package/pages",
+		"pages": [{
+				"path": "paihangbang/moshi",
+				"style": {
+					"navigationBarTitleText": "青少年模式",
+					"navigationBarBackgroundColor": "#111224"
+				}
+			}, {
+				"path": "paihangbang/index",
+				"style": {
+					"navigationBarTitleText": "排行榜",
+					"enablePullDownRefresh": true,
+					"navigationStyle": "custom"
+				}
+			}, {
+				"path": "matching/matching",
+				"style": {
+					"navigationBarTitleText": "快速派单",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "matching/orderDeatil",
+				"style": {
+					"navigationBarTitleText": "快速派单详情",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "matching/AllType",
+				"style": {
+					"navigationBarTitleText": "全部分类"
+				}
+			},
+			{
+				"path": "play/index",
+				"style": {
+					"navigationBarTitleText": "陪玩中心",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "play/order",
+				"style": {
+					"navigationBarTitleText": "抢单池",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "play/robOrder",
+				"style": {
+					"navigationBarTitleText": "我的抢单",
+					"enablePullDownRefresh": false,
+					"navigationBarBackgroundColor": "#111224"
+				}
+			}, {
+				"path": "play/robDetail",
+				"style": {
+					"navigationBarTitleText": "抢单详情",
+					"enablePullDownRefresh": false,
+					"navigationBarBackgroundColor": "#111224"
+				}
+			}, {
+				"path": "detail/listDetails",
+				"style": {
+					"navigationBarTitleText": "动态详情",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "detail/dongtai",
+				"style": {
+					"navigationBarTitleText": "我的动态",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "detail/goreport",
+				"style": {
+					"navigationBarTitleText": "我的投诉",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "detail/youhuijuan",
+				"style": {
+					"navigationBarTitleText": "我的优惠券",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "releaseone/releaseone",
+				"style": {
+					"navigationBarTitleText": "",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "feedbackIndex/feedbackIndex",
+				"style": {
+					"navigationBarTitleText": "帮助与反馈",
+					"enablePullDownRefresh": false,
+					"navigationBarBackgroundColor": "#111224"
+				}
+			}, {
+				"path": "helpDetail/helpDetail",
+				"style": {
+					"navigationBarTitleText": "帮助详情",
+					"enablePullDownRefresh": false,
+					"navigationBarBackgroundColor": "#111224"
+				}
+			}, {
+				"path": "play/gonghui",
+				"style": {
+					"navigationBarTitleText": "我的公会",
+					"enablePullDownRefresh": false,
+					"navigationBarBackgroundColor": "#111224"
+				}
+			}, {
+				"path": "gonghui/index",
+				"style": {
+					"navigationBarTitleText": "公会中心",
+					"enablePullDownRefresh": false,
+					"navigationBarBackgroundColor": "#111224"
+				}
+			}, {
+				"path": "gonghui/mygh",
+				"style": {
+					"navigationBarTitleText": "公会收益",
+					"enablePullDownRefresh": true,
+					"navigationBarBackgroundColor": "#111224"
+				}
+			}, {
+				"path": "gonghui/mysylist",
+				"style": {
+					"navigationBarTitleText": "TA的收益",
+					"enablePullDownRefresh": true,
+					"navigationBarBackgroundColor": "#111224"
+				}
+			}, {
+				"path": "gonghui/myglList",
+				"style": {
+					"navigationBarTitleText": "公会管理",
+					"enablePullDownRefresh": true,
+					"navigationBarBackgroundColor": "#111224"
+				}
+			},
+			{
+				"path": "myComment/myComment",
+				"style": {
+					"navigationBarTitleText": "我的评论",
+					"enablePullDownRefresh": true
+				}
+			}
+		]
+	}, {
+		"root": "my",
+		"pages": [{
+				"path": "gird/guanzhu",
+				"style": {
+					"navigationBarTitleText": "我的粉丝",
+					"enablePullDownRefresh": true
+				}
+			},
+			{
+				"path": "gird/guanzhuDetail",
+				"style": {
+					"navigationBarTitleText": "用户主页",
+					"enablePullDownRefresh": true
+				}
+			},
+			{
+				"path": "gird/visitor",
+				"style": {
+					"navigationBarTitleText": "最近访客",
+					"enablePullDownRefresh": true
+				}
+			}, {
+				"path": "gird/gift",
+				"style": {
+					"navigationBarTitleText": "礼物中心",
+					"enablePullDownRefresh": true
+				}
+			},
+			{
+				"path": "gird/browse",
+				"style": {
+					"navigationBarTitleText": "浏览足迹",
+					"enablePullDownRefresh": true
+				}
+			},
+			{
+				"path": "renzheng/index",
+				"style": {
+					"navigationBarTitleText": "陪玩官认证"
+				}
+			},
+			{
+				"path": "vip/index",
+				"style": {
+					"navigationBarTitleText": "会员特权"
+				}
+			},
+			{
+				"path": "wallet/index",
+				"style": {
+					"navigationBarTitleText": "我的钱包"
+				}
+			},
+			{
+				"path": "team/team",
+				"style": {
+					"navigationBarTitleText": "我的团队"
+				}
+			},
+			{
+				"path": "team/earnings",
+				"style": {
+					"navigationBarTitleText": "团队收益"
+				}
+			}, {
+				"path": "team/mysylist",
+				"style": {
+					"navigationBarTitleText": "收益明细",
+					"enablePullDownRefresh": true
+				}
+			},
+			{
+				"path": "wallet/zhifubao",
+				"style": {
+					"navigationBarTitleText": "提现账号"
+				}
+			},
+			{
+				"path": "wallet/cashList",
+				"style": {
+					"navigationBarTitleText": "提现记录",
+					"enablePullDownRefresh": true
+				}
+			},
+			{
+				"path": "wallet/getMoneyList",
+				"style": {
+					"navigationBarTitleText": "收益明细",
+					"enablePullDownRefresh": true
+				}
+			},
+			{
+				"path": "wallet/mymoneydetail",
+				"style": {
+					"navigationBarTitleText": "钱包明细",
+					"enablePullDownRefresh": true
+				}
+			},
+			{
+				"path": "order/index",
+				"style": {
+					"navigationBarTitleText": "我的订单"
+				}
+			},
+			{
+				"path": "order/pay",
+				"style": {
+					"navigationBarTitleText": "订单详情"
+				}
+			},
+			{
+				"path": "order/complain",
+				"style": {
+					"navigationBarTitleText": "投诉"
+				}
+			},
+			{
+				"path": "publish/index",
+				"style": {
+					"navigationBarTitleText": "我的技能",
+					"navigationBarBackgroundColor": "#211D33"
+				}
+			},
+			{
+				"path": "publish/editor",
+				"style": {
+					"navigationBarTitleText": "发布技能"
+				}
+			}, {
+				"path": "publish/orderDetail",
+				"style": {
+					"navigationBarTitleText": "抢单详情"
+				}
+			},
+			{
+				"path": "setting/customer",
+				"style": {
+					"navigationBarTitleText": "在线客服"
+				}
+			},
+			{
+				"path": "feedback/index",
+				"style": {
+					"navigationBarTitleText": "意见反馈"
+				}
+			},
+			{
+				"path": "setting/help",
+				"style": {
+					"navigationBarTitleText": "帮助中心"
+				}
+			},
+			{
+				"path": "setting/index",
+				"style": {
+					"navigationBarTitleText": "设置中心"
+				}
+			},
+			{
+				"path": "setting/logOff",
+				"style": {
+					"navigationBarTitleText": "注销账号"
+				}
+			},
+			{
+				"path": "setting/mimi",
+				"style": {
+					"navigationBarTitleText": "隐私政策"
+				}
+			},
+			{
+				"path": "setting/userPayXiYi",
+				"style": {
+					"navigationBarTitleText": "用户充值协议"
+				}
+			},
+			{
+				"path": "setting/xieyi",
+				"style": {
+					"navigationBarTitleText": "用户协议"
+				}
+			},
+			{
+				"path": "setting/pingtaiXieYi",
+				"style": {
+					"navigationBarTitleText": ""
+				}
+			},
+			{
+				"path": "setting/about",
+				"style": {
+					"navigationBarTitleText": "关于我们"
+				}
+			},
+			{
+				"path": "setting/userphone",
+				"style": {
+					"navigationBarTitleText": "修改手机号"
+				}
+			},
+			{
+				"path": "order/feedback",
+				"style": {
+					"navigationBarTitleText": "评论"
+				}
+			},
+			{
+				"path": "takeOrder/index",
+				"style": {
+					"navigationBarTitleText": "我的接单"
+				}
+			}, {
+				"path": "takeOrder/detail",
+				"style": {
+					"navigationBarTitleText": "接单详情"
+				}
+			},
+			{
+				"path": "setting/chat",
+				"style": {
+					"navigationBarTitleText": "联系客服"
+				}
+			}, {
+				"path": "yuewanOrder/index",
+				"style": {
+					"navigationBarTitleText": "我的派单",
+					"enablePullDownRefresh": true
+				}
+			},
+			{
+				"path": "voice/voice",
+				"style": {
+					"navigationBarTitleText": "",
+					"enablePullDownRefresh": false,
+					"navigationStyle": "custom",
+					"app-plus": {
+						"popGesture": "none"
+					}
+				}
+			},
+			{
+				"path": "voice/voiceH5",
+				"style": {
+					"navigationBarTitleText": "",
+					"enablePullDownRefresh": false,
+					"navigationStyle": "custom",
+					"app-plus": {
+						"popGesture": "none"
+					}
+				}
+			},
+			
+			//#ifdef H5
+			{
+				"path": "roomList/roomList",
+				"style": {
+					"navigationBarTitleText": "语聊推荐",
+					"enablePullDownRefresh": true,
+					"navigationStyle": "custom"
+				}
+			},
+			//#endif
+			//#ifndef H5
+			{
+				"path": "roomList/roomList",
+				"style": {
+					"navigationBarTitleText": "语聊推荐",
+					"enablePullDownRefresh": true
+				}
+			},
+			//#endif
+			
+			{
+				"path": "publicity/publicity",
+				"style": {
+					"navigationBarTitleText": "违规公示",
+					"enablePullDownRefresh": true
+				}
+			},
+			{
+				"path": "setting/kefu",
+				"style": {
+					"navigationBarTitleText": "联系客服"
+				}
+			}
+		]
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "空灵陪玩",
+		"navigationBarBackgroundColor": "#1A1728",
+		"backgroundColor": "#1E1F31"
+	},
+	"tabBar": {
+		"color": "#C2C2C2",
+		"selectedColor": "#E992DA",
+		"backgroundColor": "#291B3D",
+		"borderStyle": "black",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tabbar/index.png",
+				"selectedIconPath": "static/tabbar/index_.png",
+				"text": "首页"
+			}, {
+				"pagePath": "pages/classification/classification",
+				"iconPath": "static/tabbar/classty.png",
+				"selectedIconPath": "static/tabbar/classty_.png",
+				"text": "分类"
+			},
+			{
+				"pagePath": "pages/video/index",
+				"iconPath": "static/tabbar/shequ.png",
+				"selectedIconPath": "static/tabbar/shequ_.png",
+				"text": "动态"
+			},
+			{
+				"pagePath": "pages/msg/index",
+				"iconPath": "static/tabbar/msg.png",
+				"selectedIconPath": "static/tabbar/msg_.png",
+				"text": "消息"
+			},
+			{
+				"pagePath": "pages/my/index",
+				"iconPath": "static/tabbar/my.png",
+				"selectedIconPath": "static/tabbar/my_.png",
+				"text": "我的"
+			}
+		]
+	}
+}

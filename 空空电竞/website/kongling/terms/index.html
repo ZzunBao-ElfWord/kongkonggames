@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>空空电竞用户协议 - 空空电竞 | 元宇宙陪伴平台</title>
+<meta name="description" content="空空电竞用户协议，请在使用本平台服务前仔细阅读。">
+<link rel="icon" type="image/png" href="../kongling-icon.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --deep-blue: #0a0520;
+    --space-blue: #110830;
+    --nebula-purple: #6c3ce0;
+    --neon-cyan: #00f0ff;
+    --magic-pink: #ff6bcc;
+    --text-primary: #e8e4ff;
+    --text-secondary: #a89cc8;
+    --text-muted: #6b5f8a;
+    --gradient-text: linear-gradient(135deg, #00f0ff, #ff6bcc);
+    --glass-bg: rgba(26, 11, 61, 0.4);
+    --glass-border: rgba(108, 60, 224, 0.25);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--deep-blue);
+    color: var(--text-primary);
+    line-height: 1.9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .stars-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(108,60,224,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(255,107,204,0.1) 0%, transparent 50%);
+  }
+  .navbar {
+    position: sticky; top: 0; z-index: 1000;
+    padding: 16px 0;
+    background: rgba(10, 5, 32, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(108, 60, 224, 0.15);
+  }
+  .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
+  .nav-logo img { width: 36px; height: 36px; border-radius: 8px; }
+  .nav-logo span { font-size: 18px; font-weight: 800; letter-spacing: 3px; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .nav-back { color: var(--text-secondary); text-decoration: none; font-size: 14px; }
+  .nav-back:hover { color: var(--neon-cyan); }
+
+  main { flex: 1; position: relative; z-index: 1; padding: 60px 24px 80px; }
+  .container { max-width: 860px; margin: 0 auto; }
+  .page-header { text-align: center; margin-bottom: 40px; }
+  .page-tag { display: inline-block; padding: 6px 20px; border-radius: 20px; background: rgba(108,60,224,0.12); border: 1px solid rgba(108,60,224,0.35); color: var(--neon-cyan); font-size: 13px; letter-spacing: 3px; margin-bottom: 16px; }
+  .page-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; margin-bottom: 12px; }
+  .page-title .gradient { background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .page-desc { color: var(--text-secondary); font-size: 14px; }
+
+  .policy-content {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: blur(10px);
+  }
+  .policy-content h2 { font-size: 20px; color: #fff; margin: 32px 0 14px; padding-left: 14px; border-left: 4px solid var(--neon-cyan); }
+  .policy-content h2:first-child { margin-top: 0; }
+  .policy-content h3 { font-size: 16px; color: var(--neon-cyan); margin: 20px 0 10px; }
+  .policy-content p { color: var(--text-secondary); font-size: 15px; margin-bottom: 14px; }
+  .policy-content ul { margin: 10px 0 14px 24px; color: var(--text-secondary); font-size: 15px; }
+  .policy-content li { margin-bottom: 8px; }
+  .policy-content a { color: var(--neon-cyan); text-decoration: none; }
+  .policy-content a:hover { text-decoration: underline; }
+  .policy-content strong { color: var(--text-primary); }
+
+  footer { border-top: 1px solid rgba(108,60,224,0.15); padding: 30px 24px; position: relative; z-index: 1; background: rgba(10, 5, 32, 0.6); text-align: center; }
+  footer p { color: var(--text-muted); font-size: 13px; margin-bottom: 6px; }
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--neon-cyan); }
+
+  @media (max-width: 600px) { .policy-content { padding: 24px; } }
+</style>
+</head>
+<body>
+<div class="stars-bg"></div>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <img src="../kongling-icon.png" alt="空空电竞">
+      <span>空空电竞</span>
+    </a>
+    <a href="/" class="nav-back">← 返回首页</a>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+    <div class="page-header">
+      <span class="page-tag">USER AGREEMENT</span>
+      <h1 class="page-title">空空电竞<span class="gradient">用户协议</span></h1>
+      <p class="page-desc">最近更新日期：2026 年 9 月 17 日</p>
+    </div>
+
+    <div class="policy-content">
+      <p><strong>重要提示：本协议为您与空空电竞运营主体之间具有法律效力的服务合约。其中免除平台责任、限制用户权利、违规处罚、虚拟资产规则、争议管辖等与您权益密切相关的条款已做加粗重点标注，请您务必仔细阅读、充分理解。您注册、登录、使用空空电竞全部服务，即视为您已自愿阅读、完全理解并无条件同意本协议全部条款，自愿接受本协议约束。若您不同意任一条款，请立即停止使用本平台所有服务。</strong></p>
+
+      <p>本协议适用于所有空空电竞用户（以下简称"用户/您"）。《空空电竞用户隐私保护政策》《空空电竞平台行为规范》《空空电竞青少年保护指引》及平台后续公示的各项规则、公告、声明，均为本协议不可分割的组成部分，与本协议具有同等法律效力。</p>
+
+      <p><strong>缔约主体说明：</strong>本协议订立双方为用户与厦门精灵跳动科技有限公司（以下简称"平台/我方"），我方为「空空电竞」系列产品（APP、官网及衍生服务端口）的唯一合法运营主体，依法享有平台全部运营权利并承担对应合规义务。</p>
+
+      <p><strong>民事行为能力确认：</strong>您承诺已年满18周岁，具备完全民事权利能力与民事行为能力，可独立承担使用平台服务的全部法律责任。若您为未成年人，需在法定监护人全程陪同、知情并同意的前提下使用本平台服务，未成年人使用行为视为监护人认可本协议全部约定，监护人需对未成年人使用行为及产生的一切后果承担全部责任。</p>
+
+      <h2>一、服务内容与协议效力</h2>
+      <p>1.1 空空电竞为用户提供电竞组队、游戏陪玩、线上社交、语音互动、直播、聊天室、虚拟道具消费、会员增值服务等多元化线上互动服务，包含平台客户端、小程序、网页端等全部官方端口服务。</p>
+      <p>1.2 我方拥有平台产品、功能、服务的全部运营、迭代、升级、调整权利，可根据产品优化、用户体验升级、政策合规要求，不定期新增、修改、下架平台功能与服务，无需单独逐一告知用户，将通过平台弹窗、站内信、官方公告等方式公示即可生效。</p>
+      <p>1.3 平台部分单项功能（直播、聊天室等）配套专属服务规则，您使用对应功能即视为同时遵守本协议及专属规则，接受双重条款约束。</p>
+      <p><strong>1.4 平台所有服务仅供用户个人非商业性使用，未经我方书面授权，任何用户不得将平台服务、功能、数据用于商业运营、盈利推广、第三方服务等商业用途。</strong></p>
+      <p>1.5 我方与用户为独立民事主体，本协议不构成双方代理、合伙、雇佣、合营等法律关系，平台不对用户之间的私下交易、口头约定承担任何连带责任。</p>
+      <p><strong>1.6 我方有权适时修订本协议及配套平台规则，修订内容公示后立即生效。您继续登录、使用平台服务即视为自愿接受最新协议条款；若您不认可修订内容，需立即停止使用平台全部服务。</strong></p>
+
+      <h2>二、账号注册、使用与注销规则</h2>
+      <p>2.1 账号注册：用户需通过真实有效手机号完成账号注册，可绑定第三方账号快捷登录，但必须完成手机号核验及合规实名认证。用户注册的昵称、头像、个性签名等公开资料，不得包含违法、低俗、侵权、违背公序良俗的内容，不得冒用他人身份、批量恶意注册账号。违规注册账号，我方有权直接驳回、封禁、回收。</p>
+      <p><strong>2.2 账号权属：空空电竞账号所有权归我方独家所有，用户仅享有本人实名认证账号的个人合法使用权。严禁账号赠与、借用、租赁、转让、售卖、共享等行为，一经发现，我方有权无需通知立即收回账号、清空数据及虚拟资产，全部损失由用户自行承担。</strong></p>
+      <p><strong>2.3 账号安全：用户需自行妥善保管账号、密码、设备及个人隐私信息，对账号登录后的一切操作、行为、数据、交易承担全部法律责任。因用户泄露账号、被盗号、共享账号、操作失误等自身原因导致的财产损失、隐私泄露、账号异常，平台不承担任何补偿及赔偿责任。</strong></p>
+      <p>2.4 闲置账号处理：对于长期未登录、长期闲置、无有效使用记录的账号，我方有权进行封存、回收、注销，并清理账号内闲置数据及虚拟资产，将提前通过平台公告、站内信告知用户。</p>
+      <p><strong>2.5 账号注销：用户可通过平台官方渠道申请账号注销，注销前需自行结清全部订单、收益、纠纷，清空个人数据。账号注销后永久无法恢复，账号内所有虚拟货币、道具、权益、收益、数据将全部清空，视为用户自愿放弃全部权益，平台不予补偿、不予返还。</strong></p>
+
+      <h2>三、虚拟资产、充值与消费规则</h2>
+      <p><strong>3.1 平台虚拟资产定义：为平台专属虚拟道具，无法定货币属性、无现金价值、仅可在空空电竞平台内消费使用，不可套现、不可线下交易、不可兑换法定货币、不可转让赠与第三方。</strong></p>
+      <p>3.2 充值规则：用户仅可通过平台官方认证渠道进行充值，所有充值操作均为用户自主自愿行为。充值完成、资金到账即视为交易完成，虚拟货币属于线上即时交付数字化商品，不适用七日无理由退货规则。</p>
+      <p><strong>3.3 非官方充值禁令：严禁第三方代充、线下充值、私下交易虚拟资产。</strong></p>
+      <p><strong>3.4 消费规则：用户在平台内的陪玩下单、礼物打赏、会员开通、道具购买等全部付费消费行为，均为自主确认的个人行为，消费完成后概不退款。</strong></p>
+      <p>3.5 收益与提现规则：用户通过平台合规接单、互动产生的虚拟收益，可按照平台公示规则兑换虚拟货币或申请提现。提现需完成实名认证、绑定有效收款账户。</p>
+      <p><strong>3.6 违规资产处置：用户通过漏洞、外挂、脚本、作弊等不正当方式获取的虚拟资产及收益，我方有权无条件冻结、清空、追回。</strong></p>
+
+      <h2>四、用户行为规范与违规处罚</h2>
+      <p>4.1 通用合规义务：用户使用平台服务必须严格遵守国家法律法规、网络安全相关规定及公序良俗，不得利用平台制作、复制、发布、传播危害国家安全、违法违规、低俗色情、暴力恐怖、造谣诽谤、侵犯他人权益的内容。</p>
+      <p>4.2 严禁扰乱平台秩序行为：包含但不限于批量刷数据、恶意灌水、虚假刷单、冒充官方、引流第三方、推广外挂代练、发布兼职诈骗信息、骚扰辱骂其他用户等。</p>
+      <p>4.3 严禁网络安全违规行为：禁止非法入侵平台系统、探测漏洞、使用脚本/爬虫/机器人批量操作、篡改数据、传播病毒、干扰平台正常运行。</p>
+      <p><strong>4.4 严禁线下私单交易：严禁诱导、同意其他用户脱离平台进行线下交易、第三方支付转账、私下接单结算。</strong></p>
+      <p><strong>4.5 违规处罚机制：我方有权根据用户违规情节轻重，采取警告、内容删除、禁言、功能限制、账号冻结、设备封禁、永久封号等处罚措施。</strong></p>
+      <p><strong>4.6 责任承担：用户对自身平台行为承担全部民事、行政、刑事责任。</strong></p>
+
+      <h2>五、知识产权与隐私保护</h2>
+      <p>5.1 平台全部知识产权均归我方独家所有，未经我方书面授权，任何用户不得复制、转载、篡改、商用、二次创作。</p>
+      <p>5.2 用户在平台发布的内容，用户保证拥有合法知识产权或授权。用户同意，平台可无偿、非独占使用用户公开发布的内容，用于平台运营、展示、宣传推广。</p>
+      <p>5.3 我方严格按照《空空电竞用户个人信息及隐私保护政策》收集、存储、使用、保护用户个人信息。</p>
+
+      <h2>六、免责与风险告知</h2>
+      <p><strong>6.1 平台仅提供中立的线上互动技术服务，不参与用户之间的私下约定、交易、纠纷。</strong></p>
+      <p><strong>6.2 因网络波动、系统维护、设备故障、黑客攻击、政策整改、不可抗力等非平台主观原因导致的服务中断、数据异常，平台在法律范围内免于承担赔偿责任。</strong></p>
+      <p>6.3 从非官方渠道下载的客户端、获取的服务，平台无法保障安全性。</p>
+      <p>6.4 平台不对服务绝对稳定、无漏洞、完全匹配用户预期作出明示或暗示担保。</p>
+      <p><strong>6.5 我方全部赔偿责任上限，不超过用户当期向平台支付的服务费用总额。</strong></p>
+
+      <h2>七、服务变更、中断与终止</h2>
+      <p>7.1 我方有权根据运营规划、合规要求，随时调整、暂停、终止部分或全部平台服务。</p>
+      <p>7.2 用户存在违规违法、资料虚假、危害平台安全等情形的，我方有权单方终止服务、封禁账号。</p>
+      <p>7.3 服务终止后，我方有权依法留存、清理、匿名化处理用户数据。</p>
+
+      <h2>八、法律适用与争议解决</h2>
+      <p>8.1 本协议的订立、效力、履行、解释及争议解决，均适用中华人民共和国大陆地区法律。</p>
+      <p><strong>8.2 双方因本协议产生的一切纠纷，优先友好协商解决；协商不成的，任意一方均应向平台运营主体所在地有管辖权的人民法院提起诉讼。</strong></p>
+      <p>8.3 本协议任一条款被认定为无效或不可执行的，不影响其余条款的法律效力。</p>
+
+      <h2>九、特别免责提示</h2>
+      <p><strong>我方已通过加粗、重点标注等方式，充分提示本协议全部免责、限责、限制性、风险类条款，已依法履行格式条款提示说明义务。</strong></p>
+
+      <p style="margin-top:32px;"><strong>生效日期：</strong>本协议自用户注册、登录、使用空空电竞服务之日起正式生效</p>
+      <p><strong>运营主体：</strong>厦门精灵跳动科技有限公司</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>© 2026 空空电竞 · 元宇宙陪伴平台</p>
+  <p><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">闽ICP备2022005067号-10</a></p>
+</footer>
+</body>
+</html>
