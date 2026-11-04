@@ -24,3 +24,31 @@
 *.zip
 *.db
 *.sqlite
+# Dependencies
+.dart_tool/
+.packages
+pubspec.lock
+target/
+
+# Build outputs
+build/
+dist/
+*.apk
+*.aab
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Env & secrets
+.env
+.env.*
+!.env.example

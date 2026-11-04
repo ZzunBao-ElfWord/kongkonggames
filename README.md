@@ -1,4 +1,4 @@
-# 空空电竞
+# kongkonggames · 空空电竞
 
 本仓库保存空空电竞项目的脱敏源码快照，包含本地尚未提交的开发修改。源码统一位于 `空空电竞/`。
 
@@ -22,3 +22,31 @@
 - 代码保留已有开发状态；敏感信息扫描通过不等同于完整的构建、功能或安全审计。
 
 更多说明见 [公开源码配置说明](空空电竞/PUBLIC_SOURCE_NOTES.md)。
+## 原仓库产品规划（保留）
+
+> **ZzunBao-ElfWord** 产品矩阵 · AI 电竞直播子项目
+
+## 产品矩阵
+
+| 仓库 | 中文名 | 定位 | 状态 |
+|------|--------|------|------|
+| [openelf](https://github.com/ZzunBao-ElfWord/openelf) | 开放精灵 | AI 网红创作平台主 App | ✅ 主开发 |
+| [hualing](https://github.com/ZzunBao-ElfWord/hualing) | 画灵儿 | Pure-Dart 开源绘图引擎 | ✅ 开源已发布 |
+| [koko](https://github.com/ZzunBao-ElfWord/koko) | 空空 | 空空主 App | 🚧 规划中 |
+| [kongkongmusic](https://github.com/ZzunBao-ElfWord/kongkongmusic) | 空空音乐 | AI 音乐生成子项目 | 🚧 规划中 |
+| [**kongkonggames**](https://github.com/ZzunBao-ElfWord/kongkonggames) | 空空电竞 | AI 电竞直播与互动子项目 | 已导入现有空空电竞脱敏源码；AI 方向为原规划 |
+| [linkelf](https://github.com/ZzunBao-ElfWord/linkelf) | 链接精灵 | FISCO BCOS 联盟链能力层 | 🚧 规划中 |
+
+### 原规划技术栈（非本次导入源码）
+
+- **语言**: Dart 3.x · Rust
+- **框架**: Flutter
+- **直播**: WebSocket · Edge-TTS · 画面合成
+
+## 仓库状态
+
+已导入 `空空电竞/` 源码。当前实现使用 uni-app / Vue 和 Java / Spring Boot，与上面的 Flutter / Rust 规划区分维护。
+
+## License
+
+© 2026 ZzunBao-ElfWord · All Rights Reserved
