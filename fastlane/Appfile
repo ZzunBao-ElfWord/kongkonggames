@@ -1,0 +1,7 @@
+# fastlane Appfile — 空空电竞 iOS
+# Bundle ID 与 manifest.json 中 ios_bundle_id 保持一致
+app_identifier "app.kongkong.games"
+
+apple_id ENV["APPLE_ID"] unless ENV["APPLE_ID"].nil?
+team_id ENV["APPLE_TEAM_ID"] unless ENV["APPLE_TEAM_ID"].nil?
+itc_team_id ENV["ITC_TEAM_ID"] unless ENV["ITC_TEAM_ID"].nil?

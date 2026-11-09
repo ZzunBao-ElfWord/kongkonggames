@@ -1,0 +1,109 @@
+# fastlane Fastfile — 空空电竞 iOS 一键上传 App Store Connect
+#
+# 快速开始：
+#   1. cp fastlane/.env.example fastlane/.env   然后填 ASC_KEY_ID / ASC_ISSUER_ID
+#      并把 AuthKey_xxx.p8 放到 ~/.appstoreconnect/private_keys/
+#   2. 在 HBuilderX 完成云打包（App Store 证书 + App Store 描述文件），得到 .ipa
+#   3. fastlane check      # 只校验，不上传
+#      fastlane beta       # 上传到 TestFlight
+#      fastlane release    # 上传到 App Store Connect（不自动提审）
+#      fastlane upload     # 一键上传（默认 TestFlight，SUBMIT_FOR_REVIEW=true 时走提审）
+
+default_platform(:ios)
+
+APP_IDENTIFIER = "app.kongkong.games".freeze
+IPA_GLOBS = ["unpackage/release/**/*.ipa", "build/**/*.ipa", "*.ipa"].freeze
+
+# 依次尝试：IPA_PATH 环境变量 → 云打包输出目录 → build → 项目根目录，取最新一个
+def resolved_ipa
+  if ENV["IPA_PATH"] && !ENV["IPA_PATH"].strip.empty?
+    path = File.expand_path(ENV["IPA_PATH"].strip)
+    UI.user_error!("IPA_PATH 指向的文件不存在：#{path}") unless File.exist?(path)
+    return path
+  end
+
+  found = Dir.glob(IPA_GLOBS).select { |f| File.file?(f) }.max_by { |f| File.mtime(f) }
+  UI.user_error!(
+    "未找到 .ipa 文件。\n" \
+    "请先完成 HBuilderX 云打包（iOS → App Store 类型），\n" \
+    "或在 fastlane/.env 中用 IPA_PATH=/绝对路径/xxx.ipa 指定。"
+  ) unless found
+  found
+end
+
+def asc_api_key
+  key_id = ENV["ASC_KEY_ID"].to_s.strip
+  issuer_id = ENV["ASC_ISSUER_ID"].to_s.strip
+  key_path = ENV["ASC_KEY_PATH"].to_s.strip
+
+  if key_id.empty? || issuer_id.empty?
+    UI.user_error!(
+      "缺少 App Store Connect API Key 配置。\n" \
+      "请在 fastlane/.env 填写：\n" \
+      "  ASC_KEY_ID=<密钥 ID>\n" \
+      "  ASC_ISSUER_ID=<Issuer ID>\n" \
+      "  ASC_KEY_PATH=<AuthKey_xxx.p8 路径，留空则读 ~/.appstoreconnect/private_keys/>\n" \
+      "密钥创建位置：App Store Connect → 用户和访问 → 密钥 → App Store Connect API（角色：App 管理）"
+    )
+  end
+
+  key_path = File.join(Dir.home, ".appstoreconnect", "private_keys", "AuthKey_#{key_id}.p8") if key_path.empty?
+  UI.user_error!("找不到 API 私钥文件：#{key_path}") unless File.exist?(key_path)
+
+  app_store_connect_api_key(
+    key_id: key_id,
+    issuer_id: issuer_id,
+    key_filepath: key_path,
+    duration: 1200,
+    in_house: false
+  )
+end
+
+platform :ios do
+  desc "只校验配置和 IPA，不上传"
+  lane :check do
+    ipa = resolved_ipa
+    size_mb = format("%.1f", File.size(ipa) / 1024.0 / 1024.0)
+    UI.message("Bundle ID : #{APP_IDENTIFIER}")
+    UI.message("IPA       : #{ipa} (#{size_mb} MB)")
+    UI.message("API Key   : #{ENV['ASC_KEY_ID']}")
+    asc_api_key
+    UI.success("配置检查通过：可以执行 fastlane beta / fastlane release")
+  end
+
+  desc "上传 IPA 到 TestFlight"
+  lane :beta do
+    upload_to_testflight(
+      api_key: asc_api_key,
+      ipa: resolved_ipa,
+      skip_waiting_for_build_processing: true
+    )
+    UI.success("已上传到 TestFlight，处理完成后即可在 ASC 看到构建版本。")
+  end
+
+  desc "上传 IPA 到 App Store Connect（默认不提交审核，SUBMIT_FOR_REVIEW=true 时提审）"
+  lane :release do
+    submit = ENV["SUBMIT_FOR_REVIEW"].to_s.downcase == "true"
+    upload_to_app_store(
+      api_key: asc_api_key,
+      app_identifier: APP_IDENTIFIER,
+      ipa: resolved_ipa,
+      skip_metadata: true,
+      skip_screenshots: true,
+      skip_binary_upload: false,
+      submit_for_review: submit,
+      run_precheck_before_submit: false,
+      force: true
+    )
+    UI.success(submit ? "已上传并提交审核。" : "已上传到 App Store Connect（未提审）。")
+  end
+
+  desc "一键上传：默认 TestFlight，SUBMIT_FOR_REVIEW=true 时上传并提审"
+  lane :upload do
+    if ENV["SUBMIT_FOR_REVIEW"].to_s.downcase == "true"
+      release
+    else
+      beta
+    end
+  end
+end
