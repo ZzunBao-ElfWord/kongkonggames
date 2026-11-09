@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pwyl.modules.consortia.dao.ConsortiaDao">
+
+    <insert id="insertConsortia" useGeneratedKeys="true" keyColumn="consortiaId" keyProperty="consortiaId"
+            parameterType="com.pwyl.modules.consortia.entity.Consortia">
+        INSERT INTO consortia
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != consortiaName and '' != consortiaName">
+                consortia_name,
+            </if>
+            <if test="null != consortiaImg and '' != consortiaImg">
+                consortia_img,
+            </if>
+            <if test="null != consortiaNo and '' != consortiaNo">
+                consortia_no,
+            </if>
+            <if test="null != consortiaContent and '' != consortiaContent">
+                consortia_content,
+            </if>
+            <if test="null != userId ">
+                user_id,
+            </if>
+            <if test="null != createTime and '' != createTime">
+                create_time
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="null != consortiaName and '' != consortiaName">
+                #{consortiaName},
+            </if>
+            <if test="null != consortiaImg and '' != consortiaImg">
+                #{consortiaImg},
+            </if>
+            <if test="null != consortiaNo and '' != consortiaNo">
+                #{consortiaNo},
+            </if>
+            <if test="null != consortiaContent and '' != consortiaContent">
+                #{consortiaContent},
+            </if>
+            <if test="null != userId ">
+                #{userId},
+            </if>
+            <if test="null != createTime and '' != createTime">
+                #{createTime}
+            </if>
+        </trim>
+    </insert>
+
+
+    <select id="selectConsortiaList" resultType="com.pwyl.modules.consortia.entity.Consortia">
+        select c.*,u.user_name as userName,u.phone,
+        (select ifnull(sum(money),0) from user_money_details s where s.user_id=c.user_id and classify in (5,6)) as sunMoney,
+        (select ifnull(sum(money),0) from user_money_details s where s.user_id=c.user_id and classify=5) as ordersMoney,
+        (select ifnull(sum(money),0) from user_money_details s where s.user_id=c.user_id and classify=6) as giftMoney,
+        (select count(*) from tb_user s where s.consortia_id=c.consortia_id) as counts
+        from consortia c
+        left join tb_user u on u.user_id=c.user_id
+        where 1=1
+        <if test="consortiaName!=null and consortiaName!=''">
+            and c.consortia_name like concat('%',#{consortiaName},'%')
+        </if>
+        <if test="userName!=null and userName!=''">
+            and u.user_name like concat('%',#{userName},'%')
+        </if>
+        <if test="phone!=null and phone!=''">
+            and u.phone=#{phone}
+        </if>
+        order by c.create_time desc
+    </select>
+
+
+</mapper>

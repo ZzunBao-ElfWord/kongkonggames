@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pwyl.modules.chat.dao.ChatConversationDao">
+
+
+	<select id="selectChatConversationPage" resultType="Map">
+		select * from (
+		select c.chat_conversation_id as chatConversationId,c.update_time as updateTime,
+		       u1.user_id as userId,u1.user_name as userName,u1.avatar,u2.user_id as byUserId,u2.user_name as byUserName,u2.avatar as byAvatar,
+		       (select content from chat_content cc where cc.chat_conversation_id=c.chat_conversation_id order by cc.create_time desc limit 1) as content,
+		       (select create_time from chat_content cc where cc.chat_conversation_id=c.chat_conversation_id order by cc.create_time desc limit 1) as messageTime,
+		       (select message_type from chat_content cc where cc.chat_conversation_id=c.chat_conversation_id order by cc.create_time desc limit 1) as messageType,
+		       (select count(*) from chat_content cc where cc.chat_conversation_id=c.chat_conversation_id and user_id!=#{userId} and status=0) as contentCount
+		from chat_conversation c
+		left join tb_user u1 on u1.user_id=c.user_id
+		left join tb_user u2 on u2.user_id=c.focused_user_id
+		where u1.user_id is not null and u2.user_id is not null
+		<if test="userId!=null">
+			and (c.user_id=#{userId} or c.focused_user_id=#{userId})
+		</if>
+		<if test="nickName!=null and nickName!=''">
+			and (u1.user_name like CONCAT('%',#{nickName},'%') or u2.user_name like CONCAT('%',#{nickName},'%') )
+		</if>
+		<if test="content!=null and content!=''">
+			and c.chat_conversation_id in (select chat_conversation_id from chat_content where content like concat('%',#{content},'%'))
+		</if>
+			) a
+		order by messageTime desc
+	</select>
+
+	<insert id="insertChatConversation" useGeneratedKeys="true"  keyProperty="chatConversationId" parameterType="com.pwyl.modules.chat.entity.ChatConversation">
+		INSERT INTO chat_conversation
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="null != userId and '' != userId">
+				user_id,
+			</if>
+			<if test="null != focusedUserId and '' != focusedUserId">
+				focused_user_id,
+			</if>
+			<if test="null != status and '' != status">
+				status,
+			</if>
+			<if test="null != createTime and '' != createTime">
+				create_time,
+			</if>
+			<if test="null != updateTime and '' != updateTime">
+				update_time,
+			</if>
+			<if test="null != remark and '' != remark">
+				remark
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="null != userId and '' != userId">
+				#{userId},
+			</if>
+			<if test="null != focusedUserId and '' != focusedUserId">
+				#{focusedUserId},
+			</if>
+			<if test="null != status and '' != status">
+				#{status},
+			</if>
+			<if test="null != createTime and '' != createTime">
+				#{createTime},
+			</if>
+			<if test="null != updateTime and '' != updateTime">
+				#{updateTime},
+			</if>
+			<if test="null != remark and '' != remark">
+				#{remark}
+			</if>
+		</trim>
+	</insert>
+
+
+</mapper>

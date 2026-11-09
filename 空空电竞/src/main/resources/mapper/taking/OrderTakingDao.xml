@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pwyl.modules.taking.dao.OrderTakingDao">
+
+    <select id="queryTaking" resultType="com.pwyl.modules.taking.entity.OrderTaking">
+        select * from (
+        SELECT
+        t.user_name as userName,
+        t.avatar,
+        t.sex,
+        t.age,
+        t.room_no as roomNo,
+        t.room_id as roomId,
+        t.is_room as isRoom,
+        t.on_line as onLine,
+        g.game_name as gameName,
+        g.game_img as gameImg,
+        o.*,
+        (select ifnull(avg(score), 0) from taking_commnt where order_taking_id = o.id)           as commentScore,
+        (select count(*) from orders where order_taking_id = o.id and `state` = 2)               as ordersCount,
+        (st_distance (point (o.longitude, o.latitude),point(#{longitude},#{latitude}) ) *111195) as distance
+        FROM order_taking o
+        LEFT JOIN game g ON o.game_id = g.id
+        LEFT JOIN tb_user t ON t.user_id = o.user_id
+        WHERE
+        t.user_id is not null
+        <if test="bannerid!=null">
+            and g.banner_id = #{bannerid}
+        </if>
+        <if test="id!=null and id!=0">
+            and g.id = #{id}
+        </if>
+        <if test="isRecommend!=null and isRecommend==0 ">
+            and o.is_recommend=#{isRecommend}
+        </if>
+        <if test="sex!=null and sex!=0">
+            and t.sex=#{sex}
+        </if>
+        <if test=" condition ==1   and city!='' and city!=null   ">
+            and o.city=#{city}
+        </if>
+        <if test="like!=null and like!=''">
+            and (t.user_name like #{like} or g.game_name like #{like})
+        </if>
+        <if test="classify!=null">
+            and o.classify=#{classify}
+        </if>
+        AND o.status =0 and o.isdelete=0
+        ) a
+        order by onLine=1 desc,
+        <if test="by!=null and by !='' ">
+            money ${by},
+        </if>
+        <if test="condition!=null and condition==2">
+            `count` desc,
+        </if>
+        <if test="condition!=null and condition==3">
+            distance,
+        </if>
+        create_time desc
+    </select>
+
+    <select id="queryLowTaking" resultType="com.pwyl.modules.taking.entity.OrderTaking">
+        SELECT t.user_name                                                                              as userName,
+               t.sex,
+               t.age,
+               t.avatar,
+               t.room_no as roomNo,
+               t.room_id as roomId,
+               t.is_room as isRoom,
+               t.on_line as onLine,
+               g.game_name                                                                              as gameName,
+               o.*,
+               (select ifnull(avg(score), 0) from taking_commnt where order_taking_id = o.id)           as commentScore,
+               (select count(*) from orders where order_taking_id = o.id and `state` = 2)               as ordersCount,
+               g.game_img                                                                               as gameImg,
+               (st_distance(point(o.longitude, o.latitude), point(#{longitude}, #{latitude})) * 111195) as distance
+        FROM order_taking o
+                 LEFT JOIN game g ON o.game_id = g.id
+                 LEFT JOIN tb_user t ON t.user_id = o.user_id
+        WHERE o.STATUS = 0 and o.isdelete=0
+          and t.user_id is not null
+        order by onLine=1 desc,t.create_time desc limit 3
+    </select>
+
+    <select id="queryLowTakings" resultType="com.pwyl.modules.taking.entity.OrderTaking">
+        SELECT t.avatar,
+               t.age,
+               t.sex,
+               t.on_line as onLine,
+               t.room_no as roomNo,
+               t.room_id as roomId,
+               t.is_room as isRoom,
+               t.user_name                                                                              as userName,
+               g.game_name                                                                              as gameName,
+               g.game_img                                                                               as gameImg,
+               o.*,
+               (select ifnull(avg(score), 0) from taking_commnt where order_taking_id = o.id)           as commentScore,
+               (select count(*) from orders where order_taking_id = o.id and `state` = 2)               as ordersCount,
+               (st_distance(point(o.longitude, o.latitude), point(#{longitude}, #{latitude})) * 111195) as distance
+        FROM order_taking o
+                 LEFT JOIN game g ON o.game_id = g.id
+                 LEFT JOIN tb_user t ON t.user_id = o.user_id
+        WHERE o.STATUS = 0 and o.isdelete=0
+          and t.user_id is not null
+        order by onLine=1 desc,t.create_time desc
+    </select>
+
+    <select id="queryTakingDetails" resultType="com.pwyl.modules.taking.entity.OrderTaking">
+        SELECT t.avatar,
+               t.user_name                                                                              as userName,
+               t.on_line as onLine,
+               t.room_no as roomNo,
+               t.room_id as roomId,
+               t.is_room as isRoom,
+               g.game_name                                                                              as gameName,
+               g.game_img                                                                               as gameImg,
+               t.sex,
+               t.age,
+               (select ifnull(avg(score), 0) from taking_commnt where order_taking_id = o.id)           as commentScore,
+               (select count(*) from orders where order_taking_id = o.id and `state` = 2)               as ordersCount,
+               o.*,
+               (st_distance(point(o.longitude, o.latitude), point(#{longitude}, #{latitude})) * 111195) as distance
+        FROM order_taking o
+                 LEFT JOIN game g ON o.game_id = g.id
+                 LEFT JOIN tb_user t ON t.user_id = o.user_id
+        WHERE o.id = #{id}
+    </select>
+
+    <select id="selectMyRelease" resultType="com.pwyl.modules.taking.entity.OrderTaking">
+        SELECT
+        g.game_name as gameName,
+        g.game_img as gameImg,
+        t.avatar,
+        t.room_no as roomNo,
+        t.room_id as roomId,
+        t.is_room as isRoom,
+        t.on_line as onLine,
+        t.user_name as userName,
+        t.sex,
+        t.age,
+        (select ifnull(avg(score), 0) from taking_commnt where order_taking_id = o.id)           as commentScore,
+        o.count as ordersCount,
+        o.*
+        FROM
+        order_taking o
+        left join game g on o.game_id=g.id
+        LEFT JOIN tb_user t ON t.user_id = o.user_id
+        WHERE
+        o.user_id = #{userId} and o.isdelete=0
+        <if test="status!=null and status!=''">
+            and o.status =#{status}
+        </if>
+        order by o.update_time desc
+    </select>
+
+    <select id="queryAllOrderTaking" resultType="com.pwyl.modules.taking.entity.OrderTaking">
+        SELECT
+        t.user_name as userName,
+        g.game_name as gameName,
+        g.game_img as gameImg,
+        t.room_no as roomNo,
+        t.room_id as roomId,
+        t.is_room as isRoom,
+        t.avatar,
+        t.on_line as onLine,
+        t.age,
+        t.sex,
+        o.*,
+        (select ifnull(avg(score), 0) from taking_commnt where order_taking_id = o.id)           as commentScore,
+        (select count(*) from orders where order_taking_id = o.id and `state` = 2)               as ordersCount,
+        (st_distance (point (o.longitude, o.latitude),point(#{longitude},#{latitude}) ) *111195) as distance
+        FROM
+        order_taking o
+        left join game g on o.game_id=g.id
+        left join tb_user t on o.user_id= t.user_id
+        where t.user_id is not null
+        <if test="gameId!=null">
+            and o.game_id=#{gameId}
+        </if>
+        <if test="status!=null">
+            and o.status=#{status}
+        </if>
+        <if test="userName!=null and userName!=''">
+            and t.user_name like #{userName}
+        </if>
+        <if test="userId!=null">
+            and o.user_id=#{userId}
+        </if>
+        <if test="classify!=null">
+            and o.classify=#{classify}
+        </if>
+        order by o.update_time desc
+    </select>
+
+
+    <select id="countGoodsByCreateTime" resultType="Integer">
+        select count(*) from order_taking where status=0
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+    </select>
+
+    <select id="sumGoodsByCreateTime" resultType="Double">
+        select sum(money) from order_taking where status=0
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+    </select>
+
+    <update id="updateTakingStatusByUserId">
+        update order_taking
+        set status=2
+        where user_id = #{userId}
+    </update>
+</mapper>

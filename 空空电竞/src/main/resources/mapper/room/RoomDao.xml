@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pwyl.modules.room.dao.RoomDao">
+
+    <select id="selectRoomList" resultType="com.pwyl.modules.room.entity.Room">
+        select r.*,u.user_name as userName,g.game_name as gameName,
+        (select count(*) from room_user ru where ru.room_id=r.room_id and ru.status=1) as counts
+        from room r
+        left join tb_user u on u.user_id=r.user_id
+        left join game g on g.id=r.game_id
+        where 1=1
+        <if test="userId!=null">
+            and u.user_id=#{userId}
+        </if>
+        <if test="roomNo!=null and roomNo!=''">
+            and r.room_no=#{roomNo}
+        </if>
+        <if test="roomName!=null and roomName!=''">
+            and r.room_name like concat('%',#{roomName},'%')
+        </if>
+        <if test="userName!=null and userName!=''">
+            and u.user_name like concat('%',#{userName},'%')
+        </if>
+        <if test="status!=null ">
+            and r.status = #{status}
+        </if>
+        <if test="gameId!=null ">
+            and r.game_id = #{gameId}
+        </if>
+        <if test="roomType!=null ">
+            and r.room_type = #{roomType}
+        </if>
+        <if test="search!=null and search!=''">
+            and (r.room_name like concat('%',#{search},'%') or r.room_no like concat('%',#{search},'%') or u.user_name like concat('%',#{search},'%'))
+        </if>
+        order by r.create_time desc
+    </select>
+
+
+</mapper>

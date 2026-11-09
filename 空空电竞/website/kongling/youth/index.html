@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>青少年模式 - 空空电竞 | 元宇宙陪伴平台</title>
+<meta name="description" content="空空电竞青少年模式，通过功能限制、内容过滤、时长管控、监护协同等多重机制，为青少年营造健康、清朗、安全的网络环境。">
+<link rel="icon" type="image/png" href="../kongling-icon.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --deep-blue: #0a0520;
+    --space-blue: #110830;
+    --nebula-purple: #6c3ce0;
+    --neon-cyan: #00f0ff;
+    --magic-pink: #ff6bcc;
+    --text-primary: #e8e4ff;
+    --text-secondary: #a89cc8;
+    --text-muted: #6b5f8a;
+    --gradient-text: linear-gradient(135deg, #00f0ff, #ff6bcc);
+    --glass-bg: rgba(26, 11, 61, 0.4);
+    --glass-border: rgba(108, 60, 224, 0.25);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--deep-blue);
+    color: var(--text-primary);
+    line-height: 1.9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .stars-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(108,60,224,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(255,107,204,0.1) 0%, transparent 50%);
+  }
+  .navbar {
+    position: sticky; top: 0; z-index: 1000;
+    padding: 16px 0;
+    background: rgba(10, 5, 32, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(108, 60, 224, 0.15);
+  }
+  .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
+  .nav-logo img { width: 36px; height: 36px; border-radius: 8px; }
+  .nav-logo span { font-size: 18px; font-weight: 800; letter-spacing: 3px; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .nav-back { color: var(--text-secondary); text-decoration: none; font-size: 14px; }
+  .nav-back:hover { color: var(--neon-cyan); }
+
+  main { flex: 1; position: relative; z-index: 1; padding: 60px 24px 80px; }
+  .container { max-width: 860px; margin: 0 auto; }
+  .page-header { text-align: center; margin-bottom: 40px; }
+  .page-tag { display: inline-block; padding: 6px 20px; border-radius: 20px; background: rgba(108,60,224,0.12); border: 1px solid rgba(108,60,224,0.35); color: var(--neon-cyan); font-size: 13px; letter-spacing: 3px; margin-bottom: 16px; }
+  .page-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; margin-bottom: 12px; }
+  .page-title .gradient { background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .page-desc { color: var(--text-secondary); font-size: 14px; }
+
+  .policy-content {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: blur(10px);
+  }
+  .policy-content h2 { font-size: 20px; color: #fff; margin: 32px 0 14px; padding-left: 14px; border-left: 4px solid var(--neon-cyan); }
+  .policy-content h2:first-child { margin-top: 0; }
+  .policy-content h3 { font-size: 16px; color: var(--neon-cyan); margin: 20px 0 10px; }
+  .policy-content p { color: var(--text-secondary); font-size: 15px; margin-bottom: 14px; }
+  .policy-content ul { margin: 10px 0 14px 24px; color: var(--text-secondary); font-size: 15px; }
+  .policy-content li { margin-bottom: 8px; }
+  .policy-content a { color: var(--neon-cyan); text-decoration: none; }
+  .policy-content a:hover { text-decoration: underline; }
+  .policy-content strong { color: var(--text-primary); }
+
+  footer { border-top: 1px solid rgba(108,60,224,0.15); padding: 30px 24px; position: relative; z-index: 1; background: rgba(10, 5, 32, 0.6); text-align: center; }
+  footer p { color: var(--text-muted); font-size: 13px; margin-bottom: 6px; }
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--neon-cyan); }
+
+  @media (max-width: 600px) { .policy-content { padding: 24px; } }
+</style>
+</head>
+<body>
+<div class="stars-bg"></div>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <img src="../kongling-icon.png" alt="空空电竞">
+      <span>空空电竞</span>
+    </a>
+    <a href="/" class="nav-back">← 返回首页</a>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+    <div class="page-header">
+      <span class="page-tag">YOUTH MODE</span>
+      <h1 class="page-title">青少年<span class="gradient">模式</span></h1>
+      <p class="page-desc">筑牢未成年人网络安全防线，为青少年营造健康、清朗、安全的网络环境</p>
+    </div>
+
+    <div class="policy-content">
+      <p>为深入贯彻《中华人民共和国未成年人保护法》《未成年人网络保护条例》等法律法规要求，切实履行平台主体责任，筑牢未成年人网络安全防线，本平台针对未满18周岁用户全面启用青少年模式，通过功能限制、内容过滤、时长管控、监护协同等多重机制，为青少年营造健康、清朗、安全的网络环境。</p>
+
+      <h2>一、有偿服务全面关闭，杜绝未成年人参与消费</h2>
+      <p>青少年模式开启后，平台将对涉及金钱交易与有偿服务的核心功能进行系统性关闭，包括但不限于：付费陪玩下单、陪玩师接单、账户充值、虚拟礼物打赏、付费私信、游戏代练及其他各类有偿陪玩相关服务。上述功能在青少年模式下将不可访问、不可发起、不可支付，从源头杜绝未成年人参与、购买或提供有偿陪玩服务，防范非理性消费与财产风险。</p>
+
+      <h2>二、上网时长与时段管控，引导健康用网节奏</h2>
+      <p>平台将对青少年模式下的账号实施严格的上网时长管理与访问时段限制，系统将自动记录累计使用时长，达到规定上限后将强制下线并限制当日继续使用；同时在夜间等不适宜未成年人上网的时段实施访问拦截，避免青少年沉迷网络、影响正常作息与学业。</p>
+
+      <h2>三、内容智能过滤，拦截风险社交与不良信息</h2>
+      <p>平台依托内容安全审核机制，对青少年模式下展示的内容进行自动过滤与人工复核，主动屏蔽低俗色情、暴力血腥、诱导消费、不良价值观及其他不适宜未成年人接触的信息内容。同时，系统将对陌生人发起的陪玩邀约、私信搭讪、好友申请等社交行为进行识别与拦截，防范网络交友风险。</p>
+
+      <h2>四、监护人协同管理，共同守护成长环境</h2>
+      <p>平台为监护人提供完善的管理工具与协助机制：监护人可通过绑定账号查看未成年人使用情况，设置每日使用时长、消费限额及功能权限；当账号出现异常登录、风险社交、尝试绕过限制等情形时，系统将及时向监护人发送风险提示。</p>
+
+      <h2>五、严禁身份冒用，违规账号将依法处置</h2>
+      <p>未成年人不得通过冒用成年人身份信息、使用他人账号、伪造年龄等任何方式规避或绕过青少年模式限制。平台将通过实名认证、行为特征识别等多种手段核验，一旦发现冒用行为，有权采取功能限制、账号封禁等处置措施。</p>
+
+      <h2>六、健康用网倡议</h2>
+      <p>网络娱乐是丰富课余生活的方式之一，但无法替代现实中的学习、锻炼与人际交往。平台呼吁广大青少年合理安排上网时间，自觉抵制不良信息与过度消费。</p>
+
+      <h2>青少年模式具体管控措施</h2>
+      <ul>
+        <li><strong>内容管控：</strong>过滤色情、低俗、暴力等不适宜未成年人浏览的信息，下线虚拟亲密互动类功能，优先推送科普、文化、学习等正向内容</li>
+        <li><strong>时长管控：</strong>限制未成年人每日应用使用时长，每日22:00至次日6:00无法登录使用，使用过程中将定时弹出休息提醒</li>
+        <li><strong>消费管控：</strong>全面关闭充值、打赏等付费功能，禁止未成年人在本应用内产生任何付费行为</li>
+        <li><strong>监护管理：</strong>监护人可设置独立密码锁定青少年模式，查看应用使用记录，自主屏蔽不适宜话题与内容</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>© 2026 空空电竞 · 元宇宙陪伴平台</p>
+  <p><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">闽ICP备2022005067号-10</a></p>
+</footer>
+</body>
+</html>

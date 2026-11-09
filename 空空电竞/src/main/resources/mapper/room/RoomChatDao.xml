@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pwyl.modules.room.dao.RoomChatDao">
+
+    <select id="selectRoomChatList" resultType="com.pwyl.modules.room.entity.RoomChat">
+        select r.*,u.user_name as userName,u.phone,u.avatar
+        from room_chat r
+        left join tb_user u on u.user_id=r.user_id
+        where 1=1
+        <if test="userId!=null">
+            and u.user_id=#{userId}
+        </if>
+        <if test="roomId!=null">
+            and r.room_id=#{roomId}
+        </if>
+        <if test="content!=null and content!=''">
+            and r.content like concat('%',#{content},'%')
+        </if>
+        order by r.create_time desc
+    </select>
+
+
+</mapper>

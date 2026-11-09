@@ -1,0 +1,19 @@
+<template>
+	<view class="post-player-page">
+		<video v-if="src" id="post-player" class="post-player-video" :style="size" :src="src" :autoplay="true" :controls="true" object-fit="contain" @error="onError" />
+	</view>
+</template>
+<script>
+export default {
+	data() { const info = uni.getSystemInfoSync(); return { src: '', size: { width: info.windowWidth + 'px', height: info.windowHeight + 'px' } } },
+	onLoad(options) { this.src = decodeURIComponent(options.src || '') },
+	onResize(event) { this.size = { width: event.size.windowWidth + 'px', height: event.size.windowHeight + 'px' } },
+	onHide() { uni.createVideoContext('post-player', this).pause() },
+	onUnload() { uni.createVideoContext('post-player', this).stop() },
+	methods: { onError() { uni.showToast({ title: '视频加载失败，请稍后重试', icon: 'none' }) } }
+}
+</script>
+<style>
+.post-player-page { flex: 1; background-color: #000000; }
+.post-player-video { background-color: #000000; }
+</style>

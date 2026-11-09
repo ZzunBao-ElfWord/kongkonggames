@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pwyl.modules.pay.apple.dao.AppleIapOrderDao">
+    <insert id="insertIgnore" parameterType="com.pwyl.modules.pay.apple.entity.AppleIapOrder">
+        INSERT IGNORE INTO apple_iap_order
+        (user_id, transaction_id, original_transaction_id, product_id, biz_type,
+         coin_amount, vip_name_type, vip_end_time, grant_value, purchase_time, expires_time,
+         environment, status, verify_fail_reason, receipt_data, signed_transaction, raw_response,
+         business_order_no, ack_status, ack_retry_count, ack_time, verify_time, deliver_time,
+         create_time, update_time)
+        VALUES
+        (#{userId}, #{transactionId}, #{originalTransactionId}, #{productId}, #{bizType},
+         #{coinAmount}, #{vipNameType}, #{vipEndTime}, #{grantValue}, #{purchaseTime}, #{expiresTime},
+         #{environment}, #{status}, #{verifyFailReason}, #{receiptData}, #{signedTransaction}, #{rawResponse},
+         #{businessOrderNo}, #{ackStatus}, #{ackRetryCount}, #{ackTime}, #{verifyTime}, #{deliverTime},
+         #{createTime}, #{updateTime})
+    </insert>
+</mapper>

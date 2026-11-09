@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pwyl.modules.orders.dao.OrdersDao">
+    <select id="selectMyOrder" resultType="com.pwyl.modules.orders.response.MyOrderResponse">
+        SELECT
+        o.orders_id,
+        o.state,
+        o.update_time,
+        o.order_taking_id,
+        u.user_id,
+        u.user_name,
+        u.avatar,
+        (select count(*) from taking_commnt c where c.orders_id=o.orders_id and c.user_id=#{userId}) as commentCount,
+        g.game_name,
+        g.game_img,
+        o.order_number,
+        o.pay_money,
+        t.classify,
+        t.unit,
+        o.rate,
+        o.zhi_rate as zhiRate,
+        o.zhi_user_id as zhiUserId,
+        o.fei_user_id as feiUserId,
+        o.fei_rate as feiRate,
+        o.ping_rate as pingRate,
+        o.coupon_id as couponId,
+        o.order_type as orderType,
+        o.coupon_money as couponMoney,
+        o.consortia_rate as consortiaRate,
+        o.consortia_user_id as consortiaUserId,
+        t.id as orderTakingId
+        FROM
+        orders o
+        LEFT JOIN order_taking t ON o.order_taking_id = t.id
+        LEFT JOIN game g ON t.game_id = g.id
+        LEFT JOIN tb_user u ON u.user_id = t.user_id
+        WHERE
+        o.orders_type = 1 and o.isdelete=0 and o.orders_id is not null
+        AND o.user_id = #{userId}
+        <if test="status!=null and status!=''">
+            and o.state=#{status}
+        </if>
+        order by o.create_time desc
+    </select>
+    <select id="queryOrdersAll" resultType="com.pwyl.modules.orders.response.OrderAllResponse">
+        SELECT
+        o.orders_id,
+        o.orders_no,
+        o.order_taking_id,
+        o.pay_money,
+        o.state,
+        o.create_time,
+        o.orders_type,
+        o.remarks,
+        o.order_number,
+        o.vip_details_id,
+        u.user_name,
+        u.avatar,
+        ou.user_name as ordersUserName,
+        ou.avatar as ordersUserAvatar,
+        o.user_id as ordersUserId,
+        o.order_score,
+        t.user_id,
+        t.old_money as oldMoney,
+        t.money,
+        t.classify,
+        t.unit,
+        o.rate,
+        o.zhi_rate as zhiRate,
+        o.zhi_user_id as zhiUserId,
+        o.fei_user_id as feiUserId,
+        o.fei_rate as feiRate,
+        o.order_type as orderType,
+        o.ping_rate as pingRate,
+        o.coupon_id as couponId,
+        o.coupon_money as couponMoney,
+        o.consortia_rate as consortiaRate,
+        o.consortia_user_id as consortiaUserId,
+        (select user_name from tb_user u2 where u2.user_id=o.zhi_user_id) as zhiUserName,
+        (select user_name from tb_user u2 where u2.user_id=o.fei_user_id) as feiUserName,
+        t.member_money as memberMoney
+        FROM
+        orders o
+        LEFT JOIN order_taking t ON o.order_taking_id = t.id
+        LEFT JOIN game g ON t.game_id = g.id
+        LEFT JOIN tb_user u ON u.user_id = t.user_id
+        left join tb_user ou on ou.user_id = o.user_id
+        WHERE o.isdelete=0
+        <if test="type!=null">
+            and o.orders_type=#{type}
+        </if>
+        <if test="status!=null">
+            and o.state=#{status}
+        </if>
+        <if test="orderName!=null and orderName!=''">
+            and ou.user_name like #{orderName}
+        </if>
+        <if test="name!=null and name!=''">
+            and u.user_name like #{name}
+        </if>
+        <if test="ordersNo!=null and ordersNo!=''">
+            and o.orders_no = #{ordersNo}
+        </if>
+        <if test="userId!=null">
+            and o.user_id=#{userId}
+        </if>
+        <if test="orderType!=null and orderType!=0">
+            and o.order_type=#{orderType}
+        </if>
+        <if test="ordersType!=null and ordersType!=0">
+            and o.orders_type=#{ordersType}
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and date_format(o.create_time,'%Y-%m-%d')>=date_format(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and date_format(o.create_time,'%Y-%m-%d')&lt;=date_format(#{endTime},'%Y-%m-%d')
+        </if>
+        order by o.create_time desc
+    </select>
+
+    <select id="queryOrdersAllExcel" resultType="com.pwyl.modules.orders.response.OrderAllResponse">
+        SELECT
+        o.orders_id,
+        o.orders_no,
+        o.order_taking_id,
+        o.pay_money,
+        o.state,
+        o.create_time,
+        o.orders_type,
+        o.remarks,
+        o.order_number,
+        o.vip_details_id,
+        u.user_name,
+        u.avatar,
+        ou.user_name as ordersUserName,
+        ou.avatar as ordersUserAvatar,
+        o.user_id as ordersUserId,
+        o.order_score,
+        t.user_id,
+        t.old_money as oldMoney,
+        t.money,
+        t.classify,
+        t.unit,
+        o.rate,
+        o.zhi_rate as zhiRate,
+        o.zhi_user_id as zhiUserId,
+        o.fei_user_id as feiUserId,
+        o.fei_rate as feiRate,
+        o.orders_type as ordersType,
+        o.order_type as orderType,
+        o.ping_rate as pingRate,
+        o.coupon_id as couponId,
+        o.coupon_money as couponMoney,
+        o.consortia_rate as consortiaRate,
+        o.consortia_user_id as consortiaUserId,
+        (select user_name from tb_user u2 where u2.user_id=o.zhi_user_id) as zhiUserName,
+        (select user_name from tb_user u2 where u2.user_id=o.fei_user_id) as feiUserName,
+        t.member_money as memberMoney
+        FROM
+        orders o
+        LEFT JOIN order_taking t ON o.order_taking_id = t.id
+        LEFT JOIN game g ON t.game_id = g.id
+        LEFT JOIN tb_user u ON u.user_id = t.user_id
+        left join tb_user ou on ou.user_id = o.user_id
+        WHERE o.isdelete=0
+        <if test="type!=null">
+            and o.orders_type=#{type}
+        </if>
+        <if test="status!=null">
+            and o.state=#{status}
+        </if>
+        <if test="orderName!=null and orderName!=''">
+            and ou.user_name like #{orderName}
+        </if>
+        <if test="name!=null and name!=''">
+            and u.user_name like #{name}
+        </if>
+        <if test="ordersNo!=null and ordersNo!=''">
+            and o.orders_no = #{ordersNo}
+        </if>
+        <if test="userId!=null">
+            and o.user_id=#{userId}
+        </if>
+        <if test="orderType!=null and orderType!=0">
+            and o.order_type=#{orderType}
+        </if>
+        <if test="ordersType!=null and ordersType!=0">
+            and o.orders_type=#{ordersType}
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and date_format(o.create_time,'%Y-%m-%d')>=date_format(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and date_format(o.create_time,'%Y-%m-%d')&lt;=date_format(#{endTime},'%Y-%m-%d')
+        </if>
+        order by o.create_time desc
+    </select>
+
+
+    <select id="selectMyTakeOrders" resultType="Map">
+        select o.orders_id as ordersId,o.state,o.create_time as createTime,o.pay_money as payMoney,o.user_id as
+        ordersUserId,ot.classify,ot.unit,
+        u.user_name as userName,u.avatar,o.order_number as orderNumber,o.remarks,o.orders_no as ordersNo,ot.old_money as
+        oldMoney,
+        g.game_name as gameName,g.game_img as gameImg,ot.id as orderTakingId,
+        o.rate,
+        o.zhi_rate as zhiRate,
+        o.order_type as orderType,
+        o.zhi_user_id as zhiUserId,
+        o.fei_user_id as feiUserId,
+        o.fei_rate as feiRate,
+        o.coupon_id as couponId,
+        o.coupon_money as couponMoney,
+        o.ping_rate as pingRate
+        from orders o
+        left join order_taking ot on ot.id=o.order_taking_id
+        left join game g on g.id=ot.game_id
+        left join tb_user u on u.user_id=o.user_id
+        where ot.user_id=#{userId} and o.orders_type=1
+        <if test="status!=null and status!=0">
+            and o.state=#{status}
+        </if>
+        order by o.create_time desc
+    </select>
+
+    <select id="selectTeamOrdersList" resultType="Map">
+        select o.orders_id as ordersId,o.state,o.create_time as createTime,o.pay_money as payMoney,o.user_id as
+        ordersUserId,ot.classify,ot.unit,
+        u.user_name as userName,u.avatar,o.order_number as orderNumber,o.remarks,o.orders_no as ordersNo,ot.old_money as
+        oldMoney,
+        o.coupon_id as couponId,
+        o.order_type as orderType,
+        o.coupon_money as couponMoney,
+        g.game_name as gameName,g.game_img as gameImg,ot.id as orderTakingId,o.zhi_rate as zhiRate,o.fei_rate as feiRate
+        from orders o
+        left join order_taking ot on ot.id=o.order_taking_id
+        left join game g on g.id=ot.game_id
+        left join tb_user u on u.user_id=o.user_id
+        where o.orders_type=1
+        <if test="status!=null and status!=0">
+            and o.state=#{status}
+        </if>
+        <if test="type==1">
+            and o.zhi_user_id=#{userId}
+        </if>
+        <if test="type==2">
+            and o.fei_user_id=#{userId}
+        </if>
+        order by o.create_time desc
+    </select>
+
+    <select id="selectOrdersMoneyCountByUserId" resultType="Double">
+        select
+        <if test="type==1">
+            ifnull(sum(zhi_rate),0.00)
+        </if>
+        <if test="type==2">
+            ifnull(sum(fei_rate),0.00)
+        </if>
+        from orders
+        where state=2
+        <if test="type==1">
+            and zhi_user_id=#{userId}
+        </if>
+        <if test="type==2">
+            and fei_user_id=#{userId}
+        </if>
+    </select>
+
+    <select id="selectUserCountByInvitationCode" resultType="Integer">
+        select count(*) from tb_user
+        where
+        <if test="type==1">
+            inviter_code=#{invitationCode}
+        </if>
+        <if test="type==2">
+            inviter_code in (select invitation_code from tb_user where inviter_code=#{invitationCode})
+        </if>
+    </select>
+
+    <select id="selectTeamUserList" resultType="Map">
+        select * from (
+        select u.user_id as userId,u.user_name as userName,u.avatar,u.create_time as createTime,
+        <if test="type==1">
+            (select ifnull(sum(o.zhi_rate),0.00) from orders o where
+            o.user_id = u.user_id and o.state=2 and zhi_user_id=#{userId} ) as money
+        </if>
+        <if test="type==2">
+            (select ifnull(sum(o.fei_rate),0.00) from orders o where
+            o.user_id = u.user_id and o.state=2 and fei_user_id=#{userId} ) as money
+        </if>
+        from tb_user u
+        where
+        <if test="type==1">
+            inviter_code=#{invitationCode}
+        </if>
+        <if test="type==2">
+            inviter_code in (select invitation_code from tb_user where inviter_code=#{invitationCode})
+        </if>
+        ) a order by money desc
+    </select>
+
+    <select id="selectMyOrdersCount" resultType="Integer">
+        select count(*)
+        from orders
+        where user_id = #{userId}
+          and date_format(create_time, '%Y-%m') = date_format(#{time}, '%Y-%m')
+          and `state` = 2
+    </select>
+
+    <select id="selectTakeOrdersCount" resultType="Integer">
+        select count(*)
+        from orders
+        where order_taking_id in (select id from order_taking where user_id = #{userId})
+          and date_format(create_time, '%Y-%m') = date_format(#{time}, '%Y-%m')
+          and `state` = 2
+    </select>
+
+    <select id="countOrdersByCreateTime" resultType="Integer">
+        select count(*) from orders
+        where 1=1
+        <if test="status!=null and status==0">
+            and `state` in (1,2,4)
+        </if>
+        <if test="status!=null and status!=0">
+            and `state`=#{status}
+        </if>
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+        <if test="orderType!=null">
+            and order_type=#{orderType}
+        </if>
+    </select>
+
+    <select id="sumOrdersByCreateTime" resultType="Double">
+        select ifnull(sum(pay_money),0.00) from orders
+        where 1=1
+        <if test="status!=null and status==0">
+            and `state` in (1,2,4)
+        </if>
+        <if test="status!=null and status!=0">
+            and `state`=#{status}
+        </if>
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+        <if test="orderType!=null">
+            and order_type=#{orderType}
+        </if>
+    </select>
+
+
+    <select id="incomeAnalysisOrders" resultType="Map">
+        select o.orders_id as orderId,u.user_name as userName,u.user_id as userId,t.classify,t.unit,
+        pay_money as payMoney,o.end_time as createTime,t.old_money as money,
+        (select user_name from tb_user u2 where u2.user_id=o.zhi_user_id) as zhiUserName,
+        (select user_name from tb_user u2 where u2.user_id=o.fei_user_id) as feiUserName,
+        o.rate,
+        o.zhi_rate as zhiRate,
+        o.order_type as orderType,
+        o.zhi_user_id as zhiUserId,
+        o.fei_user_id as feiUserId,
+        o.fei_rate as feiRate,
+        o.coupon_id as couponId,
+        o.coupon_money as couponMoney,
+        o.ping_rate as pingRate
+        from orders o
+        left join tb_user u on u.user_id=o.user_id
+        left join order_taking t on t.id=o.order_taking_id
+        where o.state=2 and t.id is not null
+        <if test="flag!=null and flag==1">
+            and date_format(o.create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(o.create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(o.create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+        order by o.create_time desc
+    </select>
+
+    <select id="selectOrdersCountByUserId" resultType="Integer">
+        select ifnull(sum(`count`),0) from order_taking where user_id = #{userId} and isdelete=0
+    </select>
+
+    <select id="selectTeamUserOrderMoneyByTime" resultType="Map">
+        select * from (
+        SELECT
+        ( SELECT ifnull(sum( zhi_rate ),0.00) FROM orders WHERE zhi_user_id = u.user_id AND state = 2 AND orders_type = 1
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+        ) +
+        ( SELECT ifnull(sum( fei_rate ),0.00) FROM orders WHERE fei_user_id = u.user_id AND state = 2 AND orders_type = 1
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+        ) AS money,
+        user_id as userId,u.user_name as userName
+        FROM
+        tb_user u
+        ) a order by money desc
+    </select>
+
+    <select id="selectConsortiaUserOrderMoneyByTime" resultType="Map">
+        select * from (
+        SELECT
+        ( SELECT ifnull(sum( consortia_rate ),0.00) FROM gift_user WHERE consortia_user_id = u.user_id
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+        ) +
+        ( SELECT ifnull(sum( consortia_rate ),0.00) FROM orders WHERE consortia_user_id = u.user_id AND state = 2 AND orders_type = 1
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+        ) AS money,
+        user_id as userId,u.user_name as userName
+        FROM
+        tb_user u
+        ) a order by money desc
+    </select>
+
+
+    <select id="selectTakingUserOrderMoneyByTime" resultType="Map">
+        select * from (
+        SELECT
+        ( SELECT ifnull(sum( rate ),0.00) FROM orders WHERE order_taking_user_id = u.user_id AND state = 2 AND orders_type = 1
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+        ) AS money,
+        user_id as userId,u.user_name as userName
+        FROM
+        tb_user u where is_authentication=1
+        ) a order by money desc
+    </select>
+
+    <select id="selectGiftUserOrderMoneyByTime" resultType="Map">
+        select * from (
+        SELECT
+        ( SELECT ifnull(sum( user_money ),0.00) FROM gift_user WHERE user_id = u.user_id
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+        ) AS money,
+        user_id as userId,u.user_name as userName
+        FROM
+        tb_user u where is_authentication=1
+        ) a order by money desc
+    </select>
+
+    <select id="selectUserMoneyByTime" resultType="Map">
+        select * from (
+        SELECT
+        ( SELECT ifnull(sum( gift_money ),0.00) FROM gift_user WHERE send_user_id = u.user_id
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>)+
+        ( SELECT ifnull(sum( pay_money ), 0.00 )  FROM orders WHERE user_id = u.user_id AND state = 2
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+        ) AS money,
+        user_id as userId,u.user_name as userName
+        FROM
+        tb_user u
+        ) a order by money desc
+    </select>
+
+    <select id="selectPayMoneyByTime" resultType="Map">
+        select * from (
+        SELECT
+        ( select ifnull(sum(money),0.00) from pay_details where  classify in (1,2,3,4)
+        and order_id !='系统减少金额'
+        and state=1 and user_id=u.user_id
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+        ) AS money,
+        user_id as userId,u.user_name as userName
+        FROM
+        tb_user u
+        ) a order by money desc
+    </select>
+
+
+    <select id="selectMoneyByTime" resultType="Map">
+        select * from (
+        SELECT
+        ( select ifnull(money,0.00) from user_money where user_id=u.user_id
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>) AS money,
+        user_id as userId,u.user_name as userName
+        FROM
+        tb_user u
+        ) a order by money desc
+    </select>
+
+    <select id="selectPayOrdersMoneyByTime" resultType="Map">
+        select * from (
+        SELECT
+        ( SELECT count(*) FROM orders WHERE user_id = u.user_id AND state = 2 AND orders_type = 1
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+        ) AS money,
+        user_id as userId,u.user_name as userName
+        FROM
+        tb_user u
+        ) a order by money desc
+    </select>
+
+    <select id="selectTakingUserList" resultType="Map">
+        SELECT
+        u.user_id AS userId,
+        u.user_name AS userName,
+        u.phone,
+        u.avatar,
+        sum(a.ordersMoney + a.rewardMone ) AS money,
+        a.ordersMoney,
+        a.rewardMone
+        FROM
+        (
+        SELECT
+        ifnull( sum( o.pay_money ), 0.00 ) AS ordersMoney,
+        ifnull( b.money, 0.00 ) AS rewardMone,
+        order_taking_user_id AS userId
+        FROM
+        orders o
+        LEFT JOIN ( 	select a.money,o.user_id as userId from (
+        SELECT
+        sum(r.money) as money,r.order_taking_id
+        FROM
+        order_taking_reward r
+        group by r.order_taking_id ) a
+        left join order_taking o on o.id=a.order_taking_id
+        group by o.user_id  ) b ON b.userId = o.order_taking_user_id
+        WHERE
+        o.state = 2
+        GROUP BY
+        order_taking_user_id
+        ) a
+        left join tb_user u on u.user_id=a.userId
+        where u.user_id is not null
+        <if test="userName!=null and userName!=''">
+            and u.user_name like concat('%',#{userName},'%')
+        </if>
+        <if test="phone!=null and phone!=''">
+            and u.phone like concat('%',#{phone},'%')
+        </if>
+        group by a.userId
+        ORDER BY
+        money DESC
+    </select>
+
+    <select id="selectUserMoneyOrdersList" resultType="Map">
+        SELECT
+            u.user_id AS userId,
+            u.user_name AS userName,
+            u.phone,
+            u.avatar,
+            sum(a.ordersMoney + a.rewardMone ) AS money,
+            a.ordersMoney,
+            a.rewardMone
+        FROM
+            (
+                SELECT
+                    ifnull( sum( o.pay_money ), 0.00 ) AS ordersMoney,
+                    ifnull( c.money, 0.00 ) AS rewardMone,
+                    user_id AS userId
+                FROM
+                    orders o
+                        LEFT JOIN ( SELECT sum( r.gift_money ) AS money, send_user_id AS userId FROM gift_user r GROUP BY send_user_id ) c ON c.userId = o.user_id
+                WHERE
+                    o.state = 2
+                GROUP BY
+                    user_id
+            ) a
+                left join tb_user u on u.user_id=a.userId
+        where 1=1
+        <if test="userName!=null and userName!=''">
+            and u.user_name like concat('%',#{userName},'%')
+        </if>
+        <if test="phone!=null and phone!=''">
+            and u.phone like concat('%',#{phone},'%')
+        </if>
+          AND u.user_id IS NOT NULL
+        group by a.userId
+        ORDER BY
+            money DESC
+    </select>
+
+    <select id="selectGiveRewardList" resultType="Map">
+        SELECT
+            u.user_id AS userId,
+            u.user_name AS userName,
+            u.phone,
+            u.avatar,
+            sum( money ) AS money
+        FROM
+            (
+                SELECT
+                    *
+                FROM
+                    (
+                    SELECT
+                    sum( r.gift_money ) AS money,
+                    r.user_id AS userId
+                    FROM
+                    gift_user r
+                    GROUP BY
+                    r.user_id
+                    ) a ) a
+                LEFT JOIN tb_user u ON u.user_id = a.userId
+        WHERE
+            1 = 1
+        <if test="userName!=null and userName!=''">
+            and u.user_name like concat('%',#{userName},'%')
+        </if>
+        <if test="phone!=null and phone!=''">
+            and u.phone like concat('%',#{phone},'%')
+        </if>
+          AND u.user_id IS NOT NULL
+        GROUP BY
+            a.userId
+        ORDER BY
+            money DESC
+    </select>
+
+
+    <select id="selectOrdersCountByState" resultType="Integer">
+        select count(*) from orders
+        where orders_type=1
+        <if test="orderType!=null">
+            and order_type=#{orderType}
+        </if>
+        <if test="state!=null">
+            and `state`=#{state}
+        </if>
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+    </select>
+
+
+    <select id="selectOrdersMoneyByTime" resultType="BigDecimal">
+        select
+        <if test="type==1">
+            ifnull(sum(pay_money),0.00)
+        </if>
+        <if test="type==2">
+            ifnull(sum(ping_rate),0.00)
+        </if>
+        from orders
+        where orders_type=1
+        and `state` in (1,2,4)
+        <if test="flag!=null and flag==1">
+            and date_format(create_time,'%Y-%m-%d')=date_format(#{time},'%Y-%m-%d')
+        </if>
+        <if test="flag!=null and flag==2">
+            and date_format(create_time,'%Y-%m')=date_format(#{time},'%Y-%m')
+        </if>
+        <if test="flag!=null and flag==3">
+            and date_format(create_time,'%Y')=date_format(#{time},'%Y')
+        </if>
+    </select>
+
+
+</mapper>

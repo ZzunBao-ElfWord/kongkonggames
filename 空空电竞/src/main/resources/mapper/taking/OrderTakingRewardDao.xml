@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pwyl.modules.taking.dao.OrderTakingRewardDao">
+
+    <select id="selectOrderTakingRewardList" resultType="Map">
+		select o.money,o.create_time as createTime,u.user_name as userName,u.avatar,o.user_id as userId from order_taking_reward o
+		left join tb_user u on u.user_id=o.user_id
+		where 1=1
+		<if test="userId!=null">
+			and o.user_id=#{userId}
+		</if>
+		<if test="orderTakingId!=null">
+			and o.order_taking_id=#{orderTakingId}
+		</if>
+		order by o.create_time desc
+	</select>
+
+</mapper>
